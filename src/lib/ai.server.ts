@@ -41,9 +41,58 @@ export type MenuResult = {
 
 type ProduceContext = { name: string; quantity: number; unit: string; price: number; status: string; harvest: string };
 
+const GEMINI_MODEL = "gemini-flash-latest";
+const GEMINI_ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`;
+
+/** Gemini's responseSchema is a subset of JSON Schema — drop unsupported keys. */
+function toGeminiSchema(schema: unknown): unknown {
+  if (Array.isArray(schema)) return schema.map(toGeminiSchema);
+  if (schema && typeof schema === "object") {
+    const out: Record<string, unknown> = {};
+    for (const [k, v] of Object.entries(schema as Record<string, unknown>)) {
+      if (k === "additionalProperties" || k === "strict") continue;
+      out[k] = toGeminiSchema(v);
+    }
+    return out;
+  }
+  return schema;
+}
+
+async function geminiChat(system: string, user: string, schema: Record<string, unknown>, key: string) {
+  const res = await fetch(GEMINI_ENDPOINT, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "X-goog-api-key": key },
+    body: JSON.stringify({
+      systemInstruction: { parts: [{ text: system }] },
+      contents: [{ role: "user", parts: [{ text: user }] }],
+      generationConfig: {
+        temperature: 0.7,
+        responseMimeType: "application/json",
+        responseSchema: toGeminiSchema(schema),
+      },
+    }),
+  });
+  if (!res.ok) throw new Error(`gemini ${res.status}`);
+  const data = (await res.json()) as {
+    candidates?: { content?: { parts?: { text?: string }[] } }[];
+  };
+  const text = data.candidates?.[0]?.content?.parts?.map((p) => p.text ?? "").join("") ?? "";
+  if (!text.trim()) throw new Error("empty gemini response");
+  return JSON.parse(text) as unknown;
+}
+
 async function chat(system: string, user: string, schema: Record<string, unknown>) {
+  const geminiKey = process.env["GEMINI_API_KEY"];
   const openrouterKey = process.env["OPENROUTER_API_KEY"];
   const lovableKey = process.env["LOVABLE_API_KEY"];
+
+  if (geminiKey) {
+    try {
+      return await geminiChat(system, user, schema, geminiKey);
+    } catch (err) {
+      if (!openrouterKey && !lovableKey) throw err;
+    }
+  }
   if (!openrouterKey && !lovableKey) throw new Error("missing key");
 
   const useOpenRouter = Boolean(openrouterKey);
@@ -68,6 +117,7 @@ async function chat(system: string, user: string, schema: Record<string, unknown
   if (!content) throw new Error("empty response");
   return JSON.parse(content) as unknown;
 }
+
 
 function parseBudget(query: string): number | null {
   const m = query.match(/\$?\s?(\d{1,4})/);
