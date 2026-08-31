@@ -10,7 +10,16 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as FarmerRouteImport } from './routes/farmer'
+import { Route as HospitalityRouteImport } from './routes/hospitality'
 import { Route as TouristRouteImport } from './routes/tourist'
+import { Route as FarmerIndexRouteImport } from './routes/farmer.index'
+import { Route as FarmerOrdersRouteImport } from './routes/farmer.orders'
+import { Route as FarmerProduceRouteImport } from './routes/farmer.produce'
+import { Route as HospitalityIndexRouteImport } from './routes/hospitality.index'
+import { Route as HospitalityMenuRouteImport } from './routes/hospitality.menu'
+import { Route as HospitalityOrdersRouteImport } from './routes/hospitality.orders'
+import { Route as HospitalityProduceRouteImport } from './routes/hospitality.produce'
 import { Route as TouristIndexRouteImport } from './routes/tourist.index'
 import { Route as TouristAiRouteImport } from './routes/tourist.ai'
 import { Route as TouristExploreRouteImport } from './routes/tourist.explore'
@@ -23,10 +32,55 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FarmerRoute = FarmerRouteImport.update({
+  id: '/farmer',
+  path: '/farmer',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HospitalityRoute = HospitalityRouteImport.update({
+  id: '/hospitality',
+  path: '/hospitality',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TouristRoute = TouristRouteImport.update({
   id: '/tourist',
   path: '/tourist',
   getParentRoute: () => rootRouteImport,
+} as any)
+const FarmerIndexRoute = FarmerIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => FarmerRoute,
+} as any)
+const FarmerOrdersRoute = FarmerOrdersRouteImport.update({
+  id: '/orders',
+  path: '/orders',
+  getParentRoute: () => FarmerRoute,
+} as any)
+const FarmerProduceRoute = FarmerProduceRouteImport.update({
+  id: '/produce',
+  path: '/produce',
+  getParentRoute: () => FarmerRoute,
+} as any)
+const HospitalityIndexRoute = HospitalityIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => HospitalityRoute,
+} as any)
+const HospitalityMenuRoute = HospitalityMenuRouteImport.update({
+  id: '/menu',
+  path: '/menu',
+  getParentRoute: () => HospitalityRoute,
+} as any)
+const HospitalityOrdersRoute = HospitalityOrdersRouteImport.update({
+  id: '/orders',
+  path: '/orders',
+  getParentRoute: () => HospitalityRoute,
+} as any)
+const HospitalityProduceRoute = HospitalityProduceRouteImport.update({
+  id: '/produce',
+  path: '/produce',
+  getParentRoute: () => HospitalityRoute,
 } as any)
 const TouristIndexRoute = TouristIndexRouteImport.update({
   id: '/',
@@ -61,31 +115,56 @@ const TouristExperienceIdRoute = TouristExperienceIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/farmer': typeof FarmerRouteWithChildren
+  '/hospitality': typeof HospitalityRouteWithChildren
   '/tourist': typeof TouristRouteWithChildren
+  '/farmer/orders': typeof FarmerOrdersRoute
+  '/farmer/produce': typeof FarmerProduceRoute
+  '/hospitality/menu': typeof HospitalityMenuRoute
+  '/hospitality/orders': typeof HospitalityOrdersRoute
+  '/hospitality/produce': typeof HospitalityProduceRoute
   '/tourist/ai': typeof TouristAiRoute
   '/tourist/explore': typeof TouristExploreRoute
   '/tourist/profile': typeof TouristProfileRoute
   '/tourist/rewards': typeof TouristRewardsRoute
+  '/farmer/': typeof FarmerIndexRoute
+  '/hospitality/': typeof HospitalityIndexRoute
   '/tourist/': typeof TouristIndexRoute
   '/tourist/experience/$id': typeof TouristExperienceIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/farmer/orders': typeof FarmerOrdersRoute
+  '/farmer/produce': typeof FarmerProduceRoute
+  '/hospitality/menu': typeof HospitalityMenuRoute
+  '/hospitality/orders': typeof HospitalityOrdersRoute
+  '/hospitality/produce': typeof HospitalityProduceRoute
   '/tourist/ai': typeof TouristAiRoute
   '/tourist/explore': typeof TouristExploreRoute
   '/tourist/profile': typeof TouristProfileRoute
   '/tourist/rewards': typeof TouristRewardsRoute
+  '/farmer': typeof FarmerIndexRoute
+  '/hospitality': typeof HospitalityIndexRoute
   '/tourist': typeof TouristIndexRoute
   '/tourist/experience/$id': typeof TouristExperienceIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/farmer': typeof FarmerRouteWithChildren
+  '/hospitality': typeof HospitalityRouteWithChildren
   '/tourist': typeof TouristRouteWithChildren
+  '/farmer/orders': typeof FarmerOrdersRoute
+  '/farmer/produce': typeof FarmerProduceRoute
+  '/hospitality/menu': typeof HospitalityMenuRoute
+  '/hospitality/orders': typeof HospitalityOrdersRoute
+  '/hospitality/produce': typeof HospitalityProduceRoute
   '/tourist/ai': typeof TouristAiRoute
   '/tourist/explore': typeof TouristExploreRoute
   '/tourist/profile': typeof TouristProfileRoute
   '/tourist/rewards': typeof TouristRewardsRoute
+  '/farmer/': typeof FarmerIndexRoute
+  '/hospitality/': typeof HospitalityIndexRoute
   '/tourist/': typeof TouristIndexRoute
   '/tourist/experience/$id': typeof TouristExperienceIdRoute
 }
@@ -93,36 +172,63 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/farmer'
+    | '/hospitality'
     | '/tourist'
+    | '/farmer/orders'
+    | '/farmer/produce'
+    | '/hospitality/menu'
+    | '/hospitality/orders'
+    | '/hospitality/produce'
     | '/tourist/ai'
     | '/tourist/explore'
     | '/tourist/profile'
     | '/tourist/rewards'
+    | '/farmer/'
+    | '/hospitality/'
     | '/tourist/'
     | '/tourist/experience/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/farmer/orders'
+    | '/farmer/produce'
+    | '/hospitality/menu'
+    | '/hospitality/orders'
+    | '/hospitality/produce'
     | '/tourist/ai'
     | '/tourist/explore'
     | '/tourist/profile'
     | '/tourist/rewards'
+    | '/farmer'
+    | '/hospitality'
     | '/tourist'
     | '/tourist/experience/$id'
   id:
     | '__root__'
     | '/'
+    | '/farmer'
+    | '/hospitality'
     | '/tourist'
+    | '/farmer/orders'
+    | '/farmer/produce'
+    | '/hospitality/menu'
+    | '/hospitality/orders'
+    | '/hospitality/produce'
     | '/tourist/ai'
     | '/tourist/explore'
     | '/tourist/profile'
     | '/tourist/rewards'
+    | '/farmer/'
+    | '/hospitality/'
     | '/tourist/'
     | '/tourist/experience/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  FarmerRoute: typeof FarmerRouteWithChildren
+  HospitalityRoute: typeof HospitalityRouteWithChildren
   TouristRoute: typeof TouristRouteWithChildren
 }
 
@@ -135,12 +241,75 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/farmer': {
+      id: '/farmer'
+      path: '/farmer'
+      fullPath: '/farmer'
+      preLoaderRoute: typeof FarmerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/hospitality': {
+      id: '/hospitality'
+      path: '/hospitality'
+      fullPath: '/hospitality'
+      preLoaderRoute: typeof HospitalityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/tourist': {
       id: '/tourist'
       path: '/tourist'
       fullPath: '/tourist'
       preLoaderRoute: typeof TouristRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/farmer/': {
+      id: '/farmer/'
+      path: '/'
+      fullPath: '/farmer/'
+      preLoaderRoute: typeof FarmerIndexRouteImport
+      parentRoute: typeof FarmerRoute
+    }
+    '/farmer/orders': {
+      id: '/farmer/orders'
+      path: '/orders'
+      fullPath: '/farmer/orders'
+      preLoaderRoute: typeof FarmerOrdersRouteImport
+      parentRoute: typeof FarmerRoute
+    }
+    '/farmer/produce': {
+      id: '/farmer/produce'
+      path: '/produce'
+      fullPath: '/farmer/produce'
+      preLoaderRoute: typeof FarmerProduceRouteImport
+      parentRoute: typeof FarmerRoute
+    }
+    '/hospitality/': {
+      id: '/hospitality/'
+      path: '/'
+      fullPath: '/hospitality/'
+      preLoaderRoute: typeof HospitalityIndexRouteImport
+      parentRoute: typeof HospitalityRoute
+    }
+    '/hospitality/menu': {
+      id: '/hospitality/menu'
+      path: '/menu'
+      fullPath: '/hospitality/menu'
+      preLoaderRoute: typeof HospitalityMenuRouteImport
+      parentRoute: typeof HospitalityRoute
+    }
+    '/hospitality/orders': {
+      id: '/hospitality/orders'
+      path: '/orders'
+      fullPath: '/hospitality/orders'
+      preLoaderRoute: typeof HospitalityOrdersRouteImport
+      parentRoute: typeof HospitalityRoute
+    }
+    '/hospitality/produce': {
+      id: '/hospitality/produce'
+      path: '/produce'
+      fullPath: '/hospitality/produce'
+      preLoaderRoute: typeof HospitalityProduceRouteImport
+      parentRoute: typeof HospitalityRoute
     }
     '/tourist/': {
       id: '/tourist/'
@@ -187,6 +356,39 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface FarmerRouteChildren {
+  FarmerOrdersRoute: typeof FarmerOrdersRoute
+  FarmerProduceRoute: typeof FarmerProduceRoute
+  FarmerIndexRoute: typeof FarmerIndexRoute
+}
+
+const FarmerRouteChildren: FarmerRouteChildren = {
+  FarmerOrdersRoute: FarmerOrdersRoute,
+  FarmerProduceRoute: FarmerProduceRoute,
+  FarmerIndexRoute: FarmerIndexRoute,
+}
+
+const FarmerRouteWithChildren =
+  FarmerRoute._addFileChildren(FarmerRouteChildren)
+
+interface HospitalityRouteChildren {
+  HospitalityMenuRoute: typeof HospitalityMenuRoute
+  HospitalityOrdersRoute: typeof HospitalityOrdersRoute
+  HospitalityProduceRoute: typeof HospitalityProduceRoute
+  HospitalityIndexRoute: typeof HospitalityIndexRoute
+}
+
+const HospitalityRouteChildren: HospitalityRouteChildren = {
+  HospitalityMenuRoute: HospitalityMenuRoute,
+  HospitalityOrdersRoute: HospitalityOrdersRoute,
+  HospitalityProduceRoute: HospitalityProduceRoute,
+  HospitalityIndexRoute: HospitalityIndexRoute,
+}
+
+const HospitalityRouteWithChildren = HospitalityRoute._addFileChildren(
+  HospitalityRouteChildren,
+)
+
 interface TouristRouteChildren {
   TouristAiRoute: typeof TouristAiRoute
   TouristExploreRoute: typeof TouristExploreRoute
@@ -210,6 +412,8 @@ const TouristRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  FarmerRoute: FarmerRouteWithChildren,
+  HospitalityRoute: HospitalityRouteWithChildren,
   TouristRoute: TouristRouteWithChildren,
 }
 export const routeTree = rootRouteImport
