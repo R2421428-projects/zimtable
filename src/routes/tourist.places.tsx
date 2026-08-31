@@ -79,9 +79,9 @@ function RealPlaces() {
   return (
     <div>
       <PageHeader
-        eyebrow="Multi-source discovery"
+        eyebrow="Real-time discovery"
         title="Discover Zimbabwe"
-        subtitle="Restaurants, heritage sites, markets and more from multiple verified sources"
+        subtitle="Restaurants, heritage sites, markets and more from Foursquare Places API"
       />
 
       <div className="surface-card p-4">
@@ -159,7 +159,7 @@ function RealPlaces() {
           <div className="animate-rise">
             <SectionTitle 
               title={`${places.length} places found`} 
-              subtitle="From curated database, Foursquare, and heritage records"
+              subtitle="Real-time data from Foursquare Places API"
             />
             <div className="space-y-3">
               {places.map((place) => (

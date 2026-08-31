@@ -55,7 +55,7 @@ export async function searchZimbabwePlaces(params: {
 }): Promise<FoursquarePlace[]> {
   const searchParams = new URLSearchParams({
     near: params.near ?? "Harare, Zimbabwe",
-    limit: String(params.limit ?? 20),
+    limit: String(params.limit ?? 50), // Get more real results
     fields: "fsq_place_id,name,location,categories,distance,latitude,longitude,photos",
   });
 

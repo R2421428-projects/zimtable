@@ -64,90 +64,10 @@ export interface Place {
 }
 
 // ============================================================================
-// CURATED ZIMBABWE DATABASE (High-quality local knowledge)
+// CURATED ZIMBABWE DATABASE (Removed - using real Foursquare data only)
 // ============================================================================
 
-const CURATED_PLACES: Place[] = [
-  // Heritage Sites
-  {
-    id: "zw-heritage-001",
-    name: "Great Zimbabwe National Monument",
-    category: "heritage_site",
-    location: {
-      city: "Masvingo",
-      region: "Masvingo",
-      address: "30km from Masvingo",
-      coordinates: { lat: -20.2667, lng: 30.9333 },
-    },
-    description: "UNESCO World Heritage Site. Medieval capital of the Kingdom of Zimbabwe, featuring impressive stone ruins.",
-    heritage: true,
-    culture: ["Shona", "Great Zimbabwe Kingdom"],
-    verified: true,
-    source: "curated",
-    rating: 4.9,
-    priceRange: "$$",
-    features: ["UNESCO Site", "Archaeological Site", "Museum", "Guided Tours"],
-  },
-  {
-    id: "zw-heritage-002",
-    name: "Khami Ruins National Monument",
-    category: "heritage_site",
-    location: {
-      city: "Bulawayo",
-      region: "Bulawayo",
-      address: "22km west of Bulawayo",
-      coordinates: { lat: -20.2833, lng: 28.3833 },
-    },
-    description: "UNESCO World Heritage Site. Former capital of the Torwa dynasty, built in the 15th century.",
-    heritage: true,
-    culture: ["Shona", "Torwa Dynasty"],
-    verified: true,
-    source: "curated",
-    rating: 4.7,
-    priceRange: "$",
-    features: ["UNESCO Site", "Archaeological Site", "Stone Ruins"],
-  },
-  {
-    id: "zw-heritage-003",
-    name: "Matobo National Park",
-    category: "heritage_site",
-    location: {
-      city: "Bulawayo",
-      region: "Bulawayo",
-      address: "35km south of Bulawayo",
-      coordinates: { lat: -20.5, lng: 28.5 },
-    },
-    description: "UNESCO World Heritage Site. Sacred landscape with ancient rock art, granite formations, and Cecil Rhodes' grave.",
-    heritage: true,
-    culture: ["Ndebele", "San Bushmen Rock Art"],
-    verified: true,
-    source: "curated",
-    rating: 4.9,
-    priceRange: "$$",
-    features: ["UNESCO Site", "Rock Art", "Wildlife", "Sacred Sites"],
-  },
-
-  // Traditional Restaurants
-  {
-    id: "zw-restaurant-001",
-    name: "KwaTeri",
-    category: "restaurant",
-    location: {
-      city: "Harare",
-      region: "Harare",
-      address: "Borrowdale",
-      coordinates: { lat: -17.7865, lng: 31.0748 },
-    },
-    description: "Authentic Zimbabwean cuisine with a modern twist. Known for traditional dishes prepared with local ingredients.",
-    verified: true,
-    source: "curated",
-    rating: 4.7,
-    priceRange: "$$",
-    features: ["Traditional Cuisine", "Modern Ambiance", "Local Ingredients", "Outdoor Seating"],
-  },
-  {
-    id: "zw-restaurant-002",
-    name: "Tiger's Milk",
+const CURATED_PLACES: Place[] = [];
     category: "restaurant",
     location: {
       city: "Harare",
@@ -268,32 +188,10 @@ const CURATED_PLACES: Place[] = [
 ];
 
 // ============================================================================
-// WIKIDATA HERITAGE SITES (Additional heritage coverage)
+// WIKIDATA HERITAGE SITES (Removed - using real Foursquare data only)
 // ============================================================================
 
-const WIKIDATA_HERITAGE: Partial<Place>[] = [
-  {
-    name: "Victoria Falls",
-    category: "heritage_site",
-    location: { city: "Victoria Falls", region: "Victoria Falls" },
-    heritage: true,
-    description: "One of the Seven Natural Wonders of the World. The largest waterfall in the world.",
-  },
-  {
-    name: "Ziwa National Monuments",
-    category: "heritage_site",
-    location: { city: "Nyanga", region: "Nyanga" },
-    heritage: true,
-    description: "Ancient archaeological site with terraced hillsides and stone structures.",
-  },
-  {
-    name: "Chinhoyi Caves",
-    category: "heritage_site",
-    location: { city: "Chinhoyi", region: "Chinhoyi" },
-    heritage: true,
-    description: "Network of limestone caves with crystal-clear underground pools.",
-  },
-];
+const WIKIDATA_HERITAGE: Partial<Place>[] = [];
 
 // ============================================================================
 // SEARCH & AGGREGATION LOGIC
@@ -314,24 +212,14 @@ export interface SearchOptions {
 export async function searchPlaces(options: SearchOptions): Promise<Place[]> {
   const results: Place[] = [];
 
-  // 1. Search curated database (highest priority)
-  const curatedResults = searchCurated(options);
-  results.push(...curatedResults);
-
-  // 2. Search Foursquare (real-time data)
-  if (options.region && !options.heritage) {
+  // Search Foursquare (real-time data - primary source)
+  if (options.region) {
     try {
       const foursquareResults = await searchFoursquare(options);
       results.push(...foursquareResults);
     } catch (error) {
       console.error("Foursquare search failed:", error);
     }
-  }
-
-  // 3. Add Wikidata heritage sites if heritage filter
-  if (options.heritage) {
-    const wikidataResults = searchWikidata(options);
-    results.push(...wikidataResults);
   }
 
   // Deduplicate and sort by relevance
