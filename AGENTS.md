@@ -1,10 +1,19 @@
-<!-- LOVABLE:BEGIN -->
-> [!IMPORTANT]
-> This project is connected to [Lovable](https://lovable.dev). Avoid rewriting
-> published git history — force pushing, or rebasing/amending/squashing commits
-> that are already pushed — as it rewrites history on Lovable's side and the
-> user will likely lose their project history.
->
-> Commits you push to the connected branch sync back to Lovable and show up in
-> the editor, so keep the branch in a working state.
-<!-- LOVABLE:END -->
+# The Zimbabwean Table - Agent Notes
+
+This document contains important technical notes for AI agents and developers working on this project.
+
+## Important Build Configuration
+
+**Do NOT modify `vite.config.ts` or `package.json` dependencies** without careful consideration:
+
+- Uses `@lovable.dev/vite-tanstack-config` package for optimized TanStack Start configuration
+- This package provides pre-configured Vite plugins and settings
+- Removing or replacing it may break the build
+
+## Git History
+
+Maintain clean git history:
+
+- Avoid force pushing to main branch
+- Keep commits in working state
+- Use meaningful commit messages

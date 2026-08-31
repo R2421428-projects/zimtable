@@ -81,7 +81,6 @@ The entire application must communicate this ecosystem:
                      ZIMBABWE TOURISM
                          ECOSYSTEM
 
-
 This ecosystem is the foundation of every design and technical decision.
 
 3. PRIMARY COMPETITION OBJECTIVE
@@ -930,15 +929,14 @@ Delivered
 Implement clear states:
 
 NEW
- ↓
+↓
 ACCEPTED
- ↓
+↓
 READY FOR DELIVERY
- ↓
+↓
 DELIVERED
- ↓
+↓
 COMPLETED
-
 
 Show this visually.
 
@@ -1280,7 +1278,6 @@ PointsTransaction
 AIRecommendation
 MenuGeneration
 
-
 Use relationships between these entities.
 
 The architecture must support the ecosystem rather than three isolated mini-apps.
@@ -1499,7 +1496,6 @@ Farm-to-table ✓
 Heritage Dish ✓
 Local Market ○
 Cooking Class ○
-
 
 This complements the existing rewards concept.
 
@@ -1772,48 +1768,47 @@ Zimbabwean tourism + local economic participation + authentic culinary experienc
 The application is successful only when a presenter can perform this uninterrupted story:
 
 OPEN APP
-   ↓
+↓
 SPLASH SCREEN
-   ↓
+↓
 ONBOARDING
-   ↓
+↓
 TOURIST
-   ↓
+↓
 "Find me an authentic Zimbabwean dining
 experience in Harare under $30."
-   ↓
+↓
 AI RECOMMENDATION
-   ↓
+↓
 EXPERIENCE
-   ↓
+↓
 COMPLETE EXPERIENCE
-   ↓
+↓
 +150 POINTS
-   ↓
+↓
 REWARDS / TIER PROGRESS
-   ↓
+↓
 SWITCH TO HOSPITALITY
-   ↓
+↓
 TOURIST DEMAND
-   ↓
+↓
 LOCAL PRODUCE
-   ↓
+↓
 AI SEASONAL MENU GENERATOR
-   ↓
+↓
 GENERATED MENU
-   ↓
+↓
 ORDER LOCAL PRODUCE
-   ↓
+↓
 SWITCH TO FARMER
-   ↓
+↓
 NEW ORDER
-   ↓
+↓
 ACCEPT ORDER
-   ↓
+↓
 CONFIRM DELIVERY
-   ↓
+↓
 COMPLETE ECOSYSTEM
-
 
 At the end, the judge should not be thinking:
 
@@ -1841,15 +1836,7 @@ clarity + authenticity + usefulness + AI value + ecosystem connection + memorabl
 
 Build something the judges can understand, use and believe in.
 
-This project was built with [Lovable](https://lovable.dev).
-
-## Build with Lovable
-
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/e3a08fd3-f519-4154-acd6-ec3fc984becb).
-
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
+This project was built with [Lovable](https://lovable.dev) and further customized.
 
 ## Development
 
@@ -1859,5 +1846,31 @@ Prefer working locally? You need Node.js and npm — [install with nvm](https://
 git clone <this-repository-url>
 cd <repository-name>
 npm i
+
+# Configure your API key (choose ONE)
+cp .env.example .env
+# Then edit .env and add either GEMINI_API_KEY or OPENROUTER_API_KEY
+
 npm run dev
 ```
+
+### Environment Variables
+
+The application requires at least one AI API key to function:
+
+- **GEMINI_API_KEY** (Recommended): Get your free key from [Google AI Studio](https://aistudio.google.com/app/apikey)
+  - Uses Gemini 3.6 Flash for fast, accurate responses
+- **OPENROUTER_API_KEY** (Alternative): Get your key from [OpenRouter](https://openrouter.ai/keys)
+  - Provides access to multiple AI models
+
+The Foursquare API integration is pre-configured for discovering real Zimbabwe places.
+
+### Key Features
+
+- 🤖 **AI-Powered Discovery**: Natural language search for authentic Zimbabwean experiences (Gemini 3.6 Flash)
+- 🍽️ **AI Menu Generator**: Creates seasonal menus from available local produce
+- 📍 **Real Places Integration**: Foursquare API shows actual restaurants and dining spots in Zimbabwe
+- 🏆 **Rewards System**: Earn points and tier progression (Bronze → Platinum)
+- 🌾 **Farm-to-Table**: Connect hospitality businesses with local farmers
+- 📱 **Mobile-First**: Optimized for smartphones (360-430px)
+- 🎨 **Authentic Design**: Zimbabwean-inspired color palette and typography

@@ -23,6 +23,7 @@ import { Route as HospitalityProduceRouteImport } from './routes/hospitality.pro
 import { Route as TouristIndexRouteImport } from './routes/tourist.index'
 import { Route as TouristAiRouteImport } from './routes/tourist.ai'
 import { Route as TouristExploreRouteImport } from './routes/tourist.explore'
+import { Route as TouristPlacesRouteImport } from './routes/tourist.places'
 import { Route as TouristProfileRouteImport } from './routes/tourist.profile'
 import { Route as TouristRewardsRouteImport } from './routes/tourist.rewards'
 import { Route as TouristExperienceIdRouteImport } from './routes/tourist.experience.$id'
@@ -97,6 +98,11 @@ const TouristExploreRoute = TouristExploreRouteImport.update({
   path: '/explore',
   getParentRoute: () => TouristRoute,
 } as any)
+const TouristPlacesRoute = TouristPlacesRouteImport.update({
+  id: '/places',
+  path: '/places',
+  getParentRoute: () => TouristRoute,
+} as any)
 const TouristProfileRoute = TouristProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
@@ -125,6 +131,7 @@ export interface FileRoutesByFullPath {
   '/hospitality/produce': typeof HospitalityProduceRoute
   '/tourist/ai': typeof TouristAiRoute
   '/tourist/explore': typeof TouristExploreRoute
+  '/tourist/places': typeof TouristPlacesRoute
   '/tourist/profile': typeof TouristProfileRoute
   '/tourist/rewards': typeof TouristRewardsRoute
   '/farmer/': typeof FarmerIndexRoute
@@ -141,6 +148,7 @@ export interface FileRoutesByTo {
   '/hospitality/produce': typeof HospitalityProduceRoute
   '/tourist/ai': typeof TouristAiRoute
   '/tourist/explore': typeof TouristExploreRoute
+  '/tourist/places': typeof TouristPlacesRoute
   '/tourist/profile': typeof TouristProfileRoute
   '/tourist/rewards': typeof TouristRewardsRoute
   '/farmer': typeof FarmerIndexRoute
@@ -161,6 +169,7 @@ export interface FileRoutesById {
   '/hospitality/produce': typeof HospitalityProduceRoute
   '/tourist/ai': typeof TouristAiRoute
   '/tourist/explore': typeof TouristExploreRoute
+  '/tourist/places': typeof TouristPlacesRoute
   '/tourist/profile': typeof TouristProfileRoute
   '/tourist/rewards': typeof TouristRewardsRoute
   '/farmer/': typeof FarmerIndexRoute
@@ -182,6 +191,7 @@ export interface FileRouteTypes {
     | '/hospitality/produce'
     | '/tourist/ai'
     | '/tourist/explore'
+    | '/tourist/places'
     | '/tourist/profile'
     | '/tourist/rewards'
     | '/farmer/'
@@ -198,6 +208,7 @@ export interface FileRouteTypes {
     | '/hospitality/produce'
     | '/tourist/ai'
     | '/tourist/explore'
+    | '/tourist/places'
     | '/tourist/profile'
     | '/tourist/rewards'
     | '/farmer'
@@ -217,6 +228,7 @@ export interface FileRouteTypes {
     | '/hospitality/produce'
     | '/tourist/ai'
     | '/tourist/explore'
+    | '/tourist/places'
     | '/tourist/profile'
     | '/tourist/rewards'
     | '/farmer/'
@@ -332,6 +344,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TouristExploreRouteImport
       parentRoute: typeof TouristRoute
     }
+    '/tourist/places': {
+      id: '/tourist/places'
+      path: '/places'
+      fullPath: '/tourist/places'
+      preLoaderRoute: typeof TouristPlacesRouteImport
+      parentRoute: typeof TouristRoute
+    }
     '/tourist/profile': {
       id: '/tourist/profile'
       path: '/profile'
@@ -392,6 +411,7 @@ const HospitalityRouteWithChildren = HospitalityRoute._addFileChildren(
 interface TouristRouteChildren {
   TouristAiRoute: typeof TouristAiRoute
   TouristExploreRoute: typeof TouristExploreRoute
+  TouristPlacesRoute: typeof TouristPlacesRoute
   TouristProfileRoute: typeof TouristProfileRoute
   TouristRewardsRoute: typeof TouristRewardsRoute
   TouristIndexRoute: typeof TouristIndexRoute
@@ -401,6 +421,7 @@ interface TouristRouteChildren {
 const TouristRouteChildren: TouristRouteChildren = {
   TouristAiRoute: TouristAiRoute,
   TouristExploreRoute: TouristExploreRoute,
+  TouristPlacesRoute: TouristPlacesRoute,
   TouristProfileRoute: TouristProfileRoute,
   TouristRewardsRoute: TouristRewardsRoute,
   TouristIndexRoute: TouristIndexRoute,

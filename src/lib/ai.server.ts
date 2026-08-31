@@ -5,11 +5,8 @@
  */
 import { EXPERIENCES, money, type Experience } from "./domain";
 
-const MODEL = "google/gemini-3.7-flash";
 const OPENROUTER_MODEL = "google/gemini-2.5-flash";
-const ENDPOINT = "https://ai.gateway.lovable.dev/v1/chat/completions";
 const OPENROUTER_ENDPOINT = "https://openrouter.ai/api/v1/chat/completions";
-
 
 export type DiscoveryMatch = {
   experienceId: string;
@@ -41,7 +38,7 @@ export type MenuResult = {
 
 type ProduceContext = { name: string; quantity: number; unit: string; price: number; status: string; harvest: string };
 
-const GEMINI_MODELS = ["gemini-flash-latest", "gemini-2.5-flash", "gemini-2.0-flash"];
+const GEMINI_MODELS = ["gemini-3.6-flash", "gemini-3.5-flash", "gemini-2.5-flash"];
 const geminiUrl = (model: string) =>
   `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
 
@@ -79,58 +76,68 @@ async function geminiChat(system: string, user: string, schema: Record<string, u
         headers: { "Content-Type": "application/json", "X-goog-api-key": key },
         body,
       });
-      if (!res.ok) throw new Error(`gemini ${model} ${res.status}`);
+      if (!res.ok) {
+        const errorText = await res.text();
+        console.error(`Gemini ${model} error ${res.status}:`, errorText);
+        throw new Error(`gemini ${model} ${res.status}`);
+      }
       const data = (await res.json()) as {
         candidates?: { content?: { parts?: { text?: string }[] } }[];
       };
       const text = data.candidates?.[0]?.content?.parts?.map((p) => p.text ?? "").join("") ?? "";
       if (!text.trim()) throw new Error("empty gemini response");
-      return JSON.parse(text) as unknown;
+      const parsed = JSON.parse(text);
+      console.log(`✓ Gemini ${model} success`);
+      return parsed as unknown;
     } catch (err) {
       lastError = err instanceof Error ? err : new Error(String(err));
+      console.error(`Gemini ${model} failed:`, lastError.message);
     }
   }
   throw lastError;
 }
 
-
 async function chat(system: string, user: string, schema: Record<string, unknown>) {
   const geminiKey = process.env["GEMINI_API_KEY"];
   const openrouterKey = process.env["OPENROUTER_API_KEY"];
-  const lovableKey = process.env["LOVABLE_API_KEY"];
 
   if (geminiKey) {
-    try {
-      return await geminiChat(system, user, schema, geminiKey);
-    } catch (err) {
-      if (!openrouterKey && !lovableKey) throw err;
-    }
+    console.log("Using Gemini API...");
+    return await geminiChat(system, user, schema, geminiKey);
   }
-  if (!openrouterKey && !lovableKey) throw new Error("missing key");
+  
+  if (openrouterKey) {
+    console.log("Using OpenRouter API...");
+    const res = await fetch(OPENROUTER_ENDPOINT, {
+      method: "POST",
+      headers: { 
+        "Content-Type": "application/json", 
+        Authorization: `Bearer ${openrouterKey}` 
+      },
+      body: JSON.stringify({
+        model: OPENROUTER_MODEL,
+        messages: [
+          { role: "system", content: system },
+          { role: "user", content: user },
+        ],
+        response_format: { type: "json_schema", json_schema: { name: "result", strict: true, schema } },
+      }),
+    });
+    if (!res.ok) {
+      const errorText = await res.text();
+      console.error(`OpenRouter error ${res.status}:`, errorText);
+      throw new Error(`gateway ${res.status}`);
+    }
 
-  const useOpenRouter = Boolean(openrouterKey);
-  const res = await fetch(useOpenRouter ? OPENROUTER_ENDPOINT : ENDPOINT, {
-    method: "POST",
-    headers: useOpenRouter
-      ? { "Content-Type": "application/json", Authorization: `Bearer ${openrouterKey}` }
-      : { "Content-Type": "application/json", "Lovable-API-Key": lovableKey!, "X-Lovable-AIG-SDK": "fetch" },
-    body: JSON.stringify({
-      model: useOpenRouter ? OPENROUTER_MODEL : MODEL,
-      messages: [
-        { role: "system", content: system },
-        { role: "user", content: user },
-      ],
-      response_format: { type: "json_schema", json_schema: { name: "result", strict: true, schema } },
-    }),
-  });
-  if (!res.ok) throw new Error(`gateway ${res.status}`);
-
-  const data = (await res.json()) as { choices?: { message?: { content?: string } }[] };
-  const content = data.choices?.[0]?.message?.content;
-  if (!content) throw new Error("empty response");
-  return JSON.parse(content) as unknown;
+    const data = (await res.json()) as { choices?: { message?: { content?: string } }[] };
+    const content = data.choices?.[0]?.message?.content;
+    if (!content) throw new Error("empty response");
+    console.log("✓ OpenRouter success");
+    return JSON.parse(content) as unknown;
+  }
+  
+  throw new Error("No API key configured. Set GEMINI_API_KEY or OPENROUTER_API_KEY environment variable.");
 }
-
 
 function parseBudget(query: string): number | null {
   const m = query.match(/\$?\s?(\d{1,4})/);
@@ -191,7 +198,8 @@ export async function discover(query: string): Promise<DiscoveryResult> {
     const matches = (parsed.matches ?? []).filter((m) => EXPERIENCES.some((e) => e.id === m.experienceId)).slice(0, 3);
     if (!matches.length) throw new Error("no valid matches");
     return { intro: parsed.intro, matches, source: "ai" };
-  } catch {
+  } catch (err) {
+    console.error("AI Discovery failed, using fallback:", err);
     const budget = parseBudget(query);
     return {
       intro: "Here is what matches your request from our partner tables.",
@@ -259,7 +267,8 @@ export async function generateMenu(input: {
       .slice(0, input.courses);
     if (!courses.length) throw new Error("ungrounded menu");
     return { title: parsed.title, note: parsed.note, courses, source: "ai" };
-  } catch {
+  } catch (err) {
+    console.error("AI Menu generation failed, using fallback:", err);
     return fallbackMenu(usable, input);
   }
 }
