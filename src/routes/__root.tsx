@@ -117,7 +117,10 @@ function RootShell({ children }: { children: ReactNode }) {
         <HeadContent />
       </head>
       <body>
-        {children}
+        <StoreProvider>
+          {children}
+          <Toaster position="top-center" richColors />
+        </StoreProvider>
         <Scripts />
       </body>
     </html>
@@ -129,10 +132,7 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <StoreProvider>
-        <Outlet />
-        <Toaster position="top-center" richColors />
-      </StoreProvider>
+      <Outlet />
     </QueryClientProvider>
   );
 }
