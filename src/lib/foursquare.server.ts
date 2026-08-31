@@ -8,7 +8,7 @@ const FOURSQUARE_ENDPOINT = "https://places-api.foursquare.com/places/search";
 const PLACES_API_VERSION = "2025-06-17";
 
 export type FoursquarePlace = {
-  fsq_id: string;
+  fsq_place_id: string; // Updated from fsq_id
   name: string;
   location: {
     formatted_address?: string;
@@ -17,20 +17,18 @@ export type FoursquarePlace = {
     country?: string;
   };
   categories: Array<{
-    id: number;
+    fsq_category_id: string; // Updated from id (now BSON)
     name: string;
+    short_name?: string;
+    plural_name?: string;
     icon: {
       prefix: string;
       suffix: string;
     };
   }>;
   distance?: number;
-  geocodes?: {
-    main: {
-      latitude: number;
-      longitude: number;
-    };
-  };
+  latitude?: number; // Updated from geocodes
+  longitude?: number; // Updated from geocodes
   photos?: Array<{
     id: string;
     created_at: string;
@@ -58,7 +56,7 @@ export async function searchZimbabwePlaces(params: {
   const searchParams = new URLSearchParams({
     near: params.near ?? "Harare, Zimbabwe",
     limit: String(params.limit ?? 20),
-    fields: "fsq_id,name,location,categories,distance,geocodes,photos",
+    fields: "fsq_place_id,name,location,categories,distance,latitude,longitude,photos",
   });
 
   if (params.query) {

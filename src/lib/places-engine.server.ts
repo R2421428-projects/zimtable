@@ -424,15 +424,15 @@ function foursquareToPlace(fsq: FoursquarePlace): Place {
   const photos = fsq.photos?.map(p => `${p.prefix}400x400${p.suffix}`) ?? [];
   
   return {
-    id: `fsq-${fsq.fsq_id}`,
+    id: `fsq-${fsq.fsq_place_id}`, // Updated field name
     name: fsq.name,
     category: categorizeFoursquare(category),
     location: {
       city: fsq.location.locality || "Unknown",
       region: (fsq.location.locality || "Harare") as ZimbabweRegion,
       address: fsq.location.formatted_address,
-      coordinates: fsq.geocodes?.main
-        ? { lat: fsq.geocodes.main.latitude, lng: fsq.geocodes.main.longitude }
+      coordinates: fsq.latitude && fsq.longitude
+        ? { lat: fsq.latitude, lng: fsq.longitude } // Updated to use direct lat/lng
         : undefined,
     },
     photos: photos.length > 0 ? photos : undefined,
