@@ -1,9 +1,11 @@
 /**
  * Foursquare Places API integration for real Zimbabwe locations
+ * Updated to use new Places API (2024)
  */
 
-const FOURSQUARE_API_KEY = "fsq3FlzDfPxVuRr7+HYQ7XQyY+RqwiWYxThPyz2ITWJEVr0=";
-const FOURSQUARE_ENDPOINT = "https://api.foursquare.com/v3/places/search";
+const FOURSQUARE_API_KEY = "0TGVOIKRWYNK0KDZYD3VA2IWD4TG0PAU23HP5QJPGMD25FCY";
+const FOURSQUARE_ENDPOINT = "https://places-api.foursquare.com/places/search";
+const PLACES_API_VERSION = "2025-06-17";
 
 export type FoursquarePlace = {
   fsq_id: string;
@@ -73,7 +75,8 @@ export async function searchZimbabwePlaces(params: {
       method: "GET",
       headers: {
         Accept: "application/json",
-        Authorization: FOURSQUARE_API_KEY,
+        Authorization: `Bearer ${FOURSQUARE_API_KEY}`,
+        "X-Places-Api-Version": PLACES_API_VERSION,
       },
     });
 
@@ -97,10 +100,11 @@ export async function searchZimbabwePlaces(params: {
  */
 export async function getPlaceDetails(fsqId: string): Promise<FoursquarePlace | null> {
   try {
-    const res = await fetch(`https://api.foursquare.com/v3/places/${fsqId}`, {
+    const res = await fetch(`https://places-api.foursquare.com/places/${fsqId}`, {
       headers: {
-        Authorization: FOURSQUARE_API_KEY,
+        Authorization: `Bearer ${FOURSQUARE_API_KEY}`,
         Accept: "application/json",
+        "X-Places-Api-Version": PLACES_API_VERSION,
       },
     });
 
@@ -133,20 +137,22 @@ export async function searchFoodExperiences(city: string = "Harare"): Promise<{
   return { restaurants, markets, cafes };
 }
 
-
 /**
  * Get photo URL from Foursquare photo object
  * Size options: 'original', 'small' (200x200), 'medium' (400x400), 'large' (800x800)
  */
-export function getFoursquarePhotoUrl(photo: FoursquarePlace["photos"][0], size: "small" | "medium" | "large" | "original" = "medium"): string {
+export function getFoursquarePhotoUrl(
+  photo: FoursquarePlace["photos"][0],
+  size: "small" | "medium" | "large" | "original" = "medium",
+): string {
   if (!photo) return "";
-  
+
   const sizeMap = {
     small: "200x200",
     medium: "400x400",
     large: "800x800",
     original: "original",
   };
-  
+
   return `${photo.prefix}${sizeMap[size]}${photo.suffix}`;
 }
