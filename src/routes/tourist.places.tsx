@@ -3,7 +3,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { MapPin, Search, ExternalLink, Sparkles, Check } from "lucide-react";
 import { useState } from "react";
 import { placesSearch, getHeritageFunction } from "@/lib/ai.functions";
-import type { Place } from "@/lib/places-engine.server";
+import type { Place, PlaceCategory, ZimbabweRegion } from "@/lib/places-engine.server";
 import { LoadingLines, SectionTitle, StatusPill } from "@/components/bits";
 import { PageHeader } from "@/components/role-shell";
 
@@ -13,7 +13,8 @@ export const Route = createFileRoute("/tourist/places")({
       { title: "Discover Zimbabwe — The Zimbabwean Table" },
       {
         name: "description",
-        content: "Discover real restaurants, heritage sites, and cultural attractions across Zimbabwe.",
+        content:
+          "Discover real restaurants, heritage sites, and cultural attractions across Zimbabwe.",
       },
       { property: "og:title", content: "Discover Zimbabwe — The Zimbabwean Table" },
       { property: "og:description", content: "Multi-source database of verified Zimbabwe places." },
@@ -48,8 +49,8 @@ function RealPlaces() {
       const results = await search({
         data: {
           query: query || undefined,
-          category: category as any || undefined,
-          region: region as any,
+          category: (category as PlaceCategory) || undefined,
+          region: region as ZimbabweRegion,
           heritage: heritage || undefined,
           verified: undefined,
           limit: 30,
@@ -139,7 +140,7 @@ function RealPlaces() {
             <Search className="size-4" aria-hidden />
             {loading ? "Searching..." : "Search All Sources"}
           </button>
-          
+
           <button
             type="button"
             onClick={() => void showHeritage()}
@@ -157,8 +158,8 @@ function RealPlaces() {
 
         {!loading && places.length > 0 ? (
           <div className="animate-rise">
-            <SectionTitle 
-              title={`${places.length} places found`} 
+            <SectionTitle
+              title={`${places.length} places found`}
               subtitle="Real-time data from Foursquare Places API"
             />
             <div className="space-y-3">
@@ -226,7 +227,7 @@ function PlaceCard({ place }: { place: Place }) {
           )}
         </div>
       )}
-      
+
       <div className="p-4">
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0 flex-1">
@@ -275,10 +276,7 @@ function PlaceCard({ place }: { place: Place }) {
             {place.features && place.features.length > 0 && (
               <div className="mt-2 flex flex-wrap gap-1.5">
                 {place.features.slice(0, 4).map((feature) => (
-                  <span
-                    key={feature}
-                    className="text-xs text-muted-foreground"
-                  >
+                  <span key={feature} className="text-xs text-muted-foreground">
                     • {feature}
                   </span>
                 ))}

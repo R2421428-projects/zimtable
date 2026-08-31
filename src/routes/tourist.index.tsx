@@ -10,9 +10,15 @@ export const Route = createFileRoute("/tourist/")({
   head: () => ({
     meta: [
       { title: "Your Culinary Journey — The Zimbabwean Table" },
-      { name: "description", content: "Your Zimbabwean food journey: points, passport stamps and today's tables." },
+      {
+        name: "description",
+        content: "Your Zimbabwean food journey: points, passport stamps and today's tables.",
+      },
       { property: "og:title", content: "Your Culinary Journey — The Zimbabwean Table" },
-      { property: "og:description", content: "Track points, stamps and discover today's authentic Zimbabwean tables." },
+      {
+        property: "og:description",
+        content: "Track points, stamps and discover today's authentic Zimbabwean tables.",
+      },
     ],
   }),
   component: TouristHome,
@@ -28,17 +34,25 @@ function TouristHome() {
 
   return (
     <div>
-      <PageHeader eyebrow="Mhoro, traveller" title="Discover Zimbabwe through food" subtitle="Harare · today" />
+      <PageHeader
+        eyebrow="Mhoro, traveller"
+        title="Discover Zimbabwe through food"
+        subtitle="Harare · today"
+      />
 
       <div className="bg-ember animate-rise rounded-3xl p-5 text-clay-foreground shadow-lift">
         <div className="flex items-start justify-between">
           <div>
-            <p className="text-xs font-semibold tracking-widest uppercase opacity-85">Culinary points</p>
+            <p className="text-xs font-semibold tracking-widest uppercase opacity-85">
+              Culinary points
+            </p>
             <p className="text-display text-3xl">
               <AnimatedNumber value={state.points} />
             </p>
           </div>
-          <span className="rounded-full bg-background/20 px-3 py-1 text-xs font-semibold">{tier} tier</span>
+          <span className="rounded-full bg-background/20 px-3 py-1 text-xs font-semibold">
+            {tier} tier
+          </span>
         </div>
         {next ? (
           <div className="mt-4">
@@ -58,8 +72,19 @@ function TouristHome() {
       </div>
 
       <div className="mt-4 grid grid-cols-2 gap-3">
-        <StatCard label="Passport stamps" value={`${stamps}/${state.passport.length}`} icon={<MapPin className="size-4" />} tone="leaf" />
-        <StatCard label="Experiences" value={state.completed.length} hint="completed" icon={<Trophy className="size-4" />} tone="gold" />
+        <StatCard
+          label="Passport stamps"
+          value={`${stamps}/${state.passport.length}`}
+          icon={<MapPin className="size-4" />}
+          tone="leaf"
+        />
+        <StatCard
+          label="Experiences"
+          value={state.completed.length}
+          hint="completed"
+          icon={<Trophy className="size-4" />}
+          tone="gold"
+        />
       </div>
 
       <Link
@@ -79,7 +104,10 @@ function TouristHome() {
       </Link>
 
       <section className="mt-8">
-        <SectionTitle title="Browse by taste" subtitle="Ten categories of Zimbabwean food culture" />
+        <SectionTitle
+          title="Browse by taste"
+          subtitle="Ten categories of Zimbabwean food culture"
+        />
         <div className="scroll-row no-bar">
           {CATEGORIES.map((c) => (
             <Link

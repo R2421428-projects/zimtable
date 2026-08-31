@@ -36,7 +36,14 @@ export type MenuResult = {
   source: "ai" | "fallback";
 };
 
-type ProduceContext = { name: string; quantity: number; unit: string; price: number; status: string; harvest: string };
+type ProduceContext = {
+  name: string;
+  quantity: number;
+  unit: string;
+  price: number;
+  status: string;
+  harvest: string;
+};
 
 const GEMINI_MODELS = ["gemini-3.6-flash", "gemini-3.5-flash", "gemini-2.5-flash"];
 const geminiUrl = (model: string) =>
@@ -56,7 +63,12 @@ function toGeminiSchema(schema: unknown): unknown {
   return schema;
 }
 
-async function geminiChat(system: string, user: string, schema: Record<string, unknown>, key: string) {
+async function geminiChat(
+  system: string,
+  user: string,
+  schema: Record<string, unknown>,
+  key: string,
+) {
   const body = JSON.stringify({
     systemInstruction: { parts: [{ text: system }] },
     contents: [{ role: "user", parts: [{ text: user }] }],
@@ -105,14 +117,14 @@ async function chat(system: string, user: string, schema: Record<string, unknown
     console.log("Using Gemini API...");
     return await geminiChat(system, user, schema, geminiKey);
   }
-  
+
   if (openrouterKey) {
     console.log("Using OpenRouter API...");
     const res = await fetch(OPENROUTER_ENDPOINT, {
       method: "POST",
-      headers: { 
-        "Content-Type": "application/json", 
-        Authorization: `Bearer ${openrouterKey}` 
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${openrouterKey}`,
       },
       body: JSON.stringify({
         model: OPENROUTER_MODEL,
@@ -120,7 +132,10 @@ async function chat(system: string, user: string, schema: Record<string, unknown
           { role: "system", content: system },
           { role: "user", content: user },
         ],
-        response_format: { type: "json_schema", json_schema: { name: "result", strict: true, schema } },
+        response_format: {
+          type: "json_schema",
+          json_schema: { name: "result", strict: true, schema },
+        },
       }),
     });
     if (!res.ok) {
@@ -135,8 +150,10 @@ async function chat(system: string, user: string, schema: Record<string, unknown
     console.log("✓ OpenRouter success");
     return JSON.parse(content) as unknown;
   }
-  
-  throw new Error("No API key configured. Set GEMINI_API_KEY or OPENROUTER_API_KEY environment variable.");
+
+  throw new Error(
+    "No API key configured. Set GEMINI_API_KEY or OPENROUTER_API_KEY environment variable.",
+  );
 }
 
 function parseBudget(query: string): number | null {
@@ -153,7 +170,8 @@ function scoreLocal(query: string): Experience[] {
       let score = e.rating;
       if (budget && e.price <= budget) score += 3;
       if (budget && e.price > budget) score -= 4;
-      const haystack = `${e.name} ${e.city} ${e.tagline} ${e.categories.join(" ")} ${e.keyDish}`.toLowerCase();
+      const haystack =
+        `${e.name} ${e.city} ${e.tagline} ${e.categories.join(" ")} ${e.keyDish}`.toLowerCase();
       score += words.filter((w) => haystack.includes(w)).length * 1.5;
       return { e, score };
     })
@@ -195,7 +213,9 @@ export async function discover(query: string): Promise<DiscoveryResult> {
       },
     );
     const parsed = raw as { intro: string; matches: DiscoveryMatch[] };
-    const matches = (parsed.matches ?? []).filter((m) => EXPERIENCES.some((e) => e.id === m.experienceId)).slice(0, 3);
+    const matches = (parsed.matches ?? [])
+      .filter((m) => EXPERIENCES.some((e) => e.id === m.experienceId))
+      .slice(0, 3);
     if (!matches.length) throw new Error("no valid matches");
     return { intro: parsed.intro, matches, source: "ai" };
   } catch (err) {
@@ -208,7 +228,9 @@ export async function discover(query: string): Promise<DiscoveryResult> {
         experienceId: e.id,
         headline: e.name,
         reasons: [
-          budget && e.price <= budget ? `Within your $${budget} budget` : `${money(e.price)} per guest`,
+          budget && e.price <= budget
+            ? `Within your $${budget} budget`
+            : `${money(e.price)} per guest`,
           `${e.categories.includes("heritage") ? "Heritage" : "Authentic local"} cuisine`,
           `${e.city} — ${e.authenticity.toLowerCase()}`,
           `${Math.round(e.durationMins / 60)}h cultural experience`,
@@ -227,7 +249,9 @@ export async function generateMenu(input: {
   audience: string;
 }): Promise<MenuResult> {
   const usable = input.produce.filter((p) => p.status !== "out" && p.quantity > 0);
-  const list = usable.map((p) => `${p.name} — ${p.quantity}${p.unit} @ $${p.price}/${p.unit} (${p.harvest})`).join("\n");
+  const list = usable
+    .map((p) => `${p.name} — ${p.quantity}${p.unit} @ $${p.price}/${p.unit} (${p.harvest})`)
+    .join("\n");
 
   try {
     const raw = await chat(
@@ -262,7 +286,10 @@ export async function generateMenu(input: {
     const parsed = raw as MenuResult;
     const names = usable.map((p) => p.name.toLowerCase());
     const courses = (parsed.courses ?? [])
-      .map((c) => ({ ...c, produceUsed: (c.produceUsed ?? []).filter((n) => names.includes(n.toLowerCase())) }))
+      .map((c) => ({
+        ...c,
+        produceUsed: (c.produceUsed ?? []).filter((n) => names.includes(n.toLowerCase())),
+      }))
       .filter((c) => c.produceUsed.length > 0)
       .slice(0, input.courses);
     if (!courses.length) throw new Error("ungrounded menu");
@@ -309,7 +336,9 @@ function fallbackMenu(
   if (fish || maize)
     templates.push({
       course: "Main",
-      dish: fish ? "Grilled bream with sadza and seasonal greens" : "Green maize and bean stew with sadza",
+      dish: fish
+        ? "Grilled bream with sadza and seasonal greens"
+        : "Green maize and bean stew with sadza",
       description: fish
         ? "Lake-caught bream grilled over wood, served with soft sadza and greens."
         : "Fresh green maize simmered with beans and tomato, served with sadza.",

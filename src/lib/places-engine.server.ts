@@ -10,20 +10,20 @@ import { searchZimbabwePlaces, type FoursquarePlace } from "./foursquare.server"
 // TYPES
 // ============================================================================
 
-export type PlaceCategory = 
-  | "restaurant" 
-  | "cafe" 
-  | "market" 
-  | "heritage_site" 
+export type PlaceCategory =
+  | "restaurant"
+  | "cafe"
+  | "market"
+  | "heritage_site"
   | "accommodation"
   | "cultural_center"
   | "farm"
   | "attraction"
   | "activity";
 
-export type ZimbabweRegion = 
+export type ZimbabweRegion =
   | "Harare"
-  | "Bulawayo" 
+  | "Bulawayo"
   | "Victoria Falls"
   | "Mutare"
   | "Gweru"
@@ -68,124 +68,6 @@ export interface Place {
 // ============================================================================
 
 const CURATED_PLACES: Place[] = [];
-    category: "restaurant",
-    location: {
-      city: "Harare",
-      region: "Harare",
-      address: "Avondale",
-      coordinates: { lat: -17.7942, lng: 31.0551 },
-    },
-    description: "Contemporary restaurant and bar offering fusion cuisine with Zimbabwean influences. Popular for its vibrant atmosphere.",
-    verified: true,
-    source: "curated",
-    rating: 4.6,
-    priceRange: "$$$",
-    features: ["Fusion Cuisine", "Bar", "Contemporary", "Live Music"],
-  },
-  {
-    id: "zw-restaurant-003",
-    name: "Amanzi Restaurant",
-    category: "restaurant",
-    location: {
-      city: "Harare",
-      region: "Harare",
-      address: "Borrowdale",
-    },
-    description: "Contemporary Zimbabwean cuisine with traditional flavors and modern presentation.",
-    verified: true,
-    source: "curated",
-    rating: 4.6,
-    priceRange: "$$$",
-    features: ["Traditional Cuisine", "Modern Twist", "Outdoor Seating"],
-  },
-  {
-    id: "zw-restaurant-004",
-    name: "Victoria 22",
-    category: "restaurant",
-    location: {
-      city: "Victoria Falls",
-      region: "Victoria Falls",
-      address: "Victoria Falls Town",
-    },
-    description: "Fine dining with views. Traditional Zimbabwean dishes and international cuisine.",
-    verified: true,
-    source: "curated",
-    rating: 4.7,
-    priceRange: "$$$",
-    features: ["Fine Dining", "Traditional Menu", "Bar"],
-  },
-
-  // Markets
-  {
-    id: "zw-market-001",
-    name: "Mbare Musika",
-    category: "market",
-    location: {
-      city: "Harare",
-      region: "Harare",
-      address: "Mbare, Harare",
-    },
-    description: "Zimbabwe's largest produce market. Fresh fruits, vegetables, and local food products.",
-    verified: true,
-    source: "curated",
-    rating: 4.3,
-    priceRange: "$",
-    features: ["Fresh Produce", "Local Food", "Traditional Market"],
-  },
-  {
-    id: "zw-market-002",
-    name: "Renkini Bus Terminus Market",
-    category: "market",
-    location: {
-      city: "Bulawayo",
-      region: "Bulawayo",
-      address: "Renkini, Bulawayo",
-    },
-    description: "Bustling local market with fresh produce, traditional foods, and crafts.",
-    verified: true,
-    source: "curated",
-    rating: 4.2,
-    priceRange: "$",
-    features: ["Fresh Produce", "Crafts", "Street Food"],
-  },
-
-  // Cultural Centers
-  {
-    id: "zw-culture-001",
-    name: "National Gallery of Zimbabwe",
-    category: "cultural_center",
-    location: {
-      city: "Harare",
-      region: "Harare",
-      address: "Julius Nyerere Way, Harare",
-    },
-    description: "Premier art gallery showcasing Zimbabwean and African contemporary art.",
-    culture: ["Zimbabwean Art", "Shona Sculpture"],
-    verified: true,
-    source: "curated",
-    rating: 4.5,
-    priceRange: "$",
-    features: ["Art Gallery", "Sculpture Garden", "Workshops"],
-  },
-
-  // Accommodation
-  {
-    id: "zw-lodge-001",
-    name: "Victoria Falls Safari Lodge",
-    category: "accommodation",
-    location: {
-      city: "Victoria Falls",
-      region: "Victoria Falls",
-      address: "Squire Cummings Road",
-    },
-    description: "Award-winning lodge overlooking waterhole with wildlife viewing.",
-    verified: true,
-    source: "curated",
-    rating: 4.8,
-    priceRange: "$$$$",
-    features: ["Safari Lodge", "Wildlife Viewing", "Restaurant", "Pool"],
-  },
-];
 
 // ============================================================================
 // WIKIDATA HERITAGE SITES (Removed - using real Foursquare data only)
@@ -257,7 +139,7 @@ function searchCurated(options: SearchOptions): Place[] {
       (p) =>
         p.name.toLowerCase().includes(q) ||
         p.description?.toLowerCase().includes(q) ||
-        p.features?.some((f) => f.toLowerCase().includes(q))
+        p.features?.some((f) => f.toLowerCase().includes(q)),
     );
   }
 
@@ -289,9 +171,7 @@ function searchWikidata(options: SearchOptions): Place[] {
   if (options.query) {
     const q = options.query.toLowerCase();
     results = results.filter(
-      (p) =>
-        p.name.toLowerCase().includes(q) ||
-        p.description?.toLowerCase().includes(q)
+      (p) => p.name.toLowerCase().includes(q) || p.description?.toLowerCase().includes(q),
     );
   }
 
@@ -309,8 +189,8 @@ function searchWikidata(options: SearchOptions): Place[] {
  */
 function foursquareToPlace(fsq: FoursquarePlace): Place {
   const category = fsq.categories?.[0]?.name || "attraction";
-  const photos = fsq.photos?.map(p => `${p.prefix}400x400${p.suffix}`) ?? [];
-  
+  const photos = fsq.photos?.map((p) => `${p.prefix}400x400${p.suffix}`) ?? [];
+
   return {
     id: `fsq-${fsq.fsq_place_id}`, // Updated field name
     name: fsq.name,
@@ -319,9 +199,10 @@ function foursquareToPlace(fsq: FoursquarePlace): Place {
       city: fsq.location.locality || "Unknown",
       region: (fsq.location.locality || "Harare") as ZimbabweRegion,
       address: fsq.location.formatted_address,
-      coordinates: fsq.latitude && fsq.longitude
-        ? { lat: fsq.latitude, lng: fsq.longitude } // Updated to use direct lat/lng
-        : undefined,
+      coordinates:
+        fsq.latitude && fsq.longitude
+          ? { lat: fsq.latitude, lng: fsq.longitude } // Updated to use direct lat/lng
+          : undefined,
     },
     photos: photos.length > 0 ? photos : undefined,
     verified: false,
@@ -410,8 +291,8 @@ export async function getPlaceById(id: string): Promise<Place | null> {
   if (curated) return curated;
 
   // Check Wikidata
-  const wikidata = WIKIDATA_HERITAGE.find((p) => 
-    `wikidata-${p.name?.toLowerCase().replace(/\s+/g, "-")}` === id
+  const wikidata = WIKIDATA_HERITAGE.find(
+    (p) => `wikidata-${p.name?.toLowerCase().replace(/\s+/g, "-")}` === id,
   );
   if (wikidata) return wikidata as Place;
 

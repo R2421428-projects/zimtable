@@ -11,7 +11,10 @@ export const Route = createFileRoute("/farmer/orders")({
       { title: "Orders — Farmer — The Zimbabwean Table" },
       { name: "description", content: "Accept and track hospitality orders." },
       { property: "og:title", content: "Orders — Farmer — The Zimbabwean Table" },
-      { property: "og:description", content: "Manage incoming orders from restaurants and hotels." },
+      {
+        property: "og:description",
+        content: "Manage incoming orders from restaurants and hotels.",
+      },
     ],
   }),
   component: FarmerOrders,
@@ -39,7 +42,11 @@ function FarmerOrders() {
 
   return (
     <div>
-      <PageHeader eyebrow="Incoming orders" title="Orders from kitchens" subtitle="Accept, prepare and deliver" />
+      <PageHeader
+        eyebrow="Incoming orders"
+        title="Orders from kitchens"
+        subtitle="Accept, prepare and deliver"
+      />
 
       {myOrders.length ? (
         <div className="space-y-3">
@@ -54,17 +61,26 @@ function FarmerOrders() {
                     </span>
                     <div>
                       <h3 className="text-display text-base">{order.businessName}</h3>
-                      <p className="text-xs text-muted-foreground">Order {order.id} · {order.createdAt}</p>
+                      <p className="text-xs text-muted-foreground">
+                        Order {order.id} · {order.createdAt}
+                      </p>
                     </div>
                   </div>
-                  <StatusPill tone={STATUS_TONE[order.status]}>{ORDER_LABEL[order.status]}</StatusPill>
+                  <StatusPill tone={STATUS_TONE[order.status]}>
+                    {ORDER_LABEL[order.status]}
+                  </StatusPill>
                 </div>
 
-                {order.note ? <p className="mt-2 text-xs text-muted-foreground">{order.note}</p> : null}
+                {order.note ? (
+                  <p className="mt-2 text-xs text-muted-foreground">{order.note}</p>
+                ) : null}
 
                 <ul className="mt-3 divide-y divide-border rounded-xl border border-border">
                   {order.items.map((item) => (
-                    <li key={item.produceId} className="flex items-center justify-between gap-3 px-3 py-2 text-sm">
+                    <li
+                      key={item.produceId}
+                      className="flex items-center justify-between gap-3 px-3 py-2 text-sm"
+                    >
                       <span>{item.name}</span>
                       <span className="text-muted-foreground">
                         {item.quantity} {item.unit}
@@ -101,7 +117,11 @@ function FarmerOrders() {
           })}
         </div>
       ) : (
-        <EmptyState emoji="📦" title="No orders yet" body="Hospitality partners will place orders from your produce listings." />
+        <EmptyState
+          emoji="📦"
+          title="No orders yet"
+          body="Hospitality partners will place orders from your produce listings."
+        />
       )}
     </div>
   );

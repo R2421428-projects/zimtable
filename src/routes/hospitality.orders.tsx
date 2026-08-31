@@ -40,7 +40,11 @@ function HospitalityOrders() {
 
   return (
     <div>
-      <PageHeader eyebrow="Order tracking" title="Your orders" subtitle="From farmer acceptance to delivery" />
+      <PageHeader
+        eyebrow="Order tracking"
+        title="Your orders"
+        subtitle="From farmer acceptance to delivery"
+      />
 
       {businessOrders.length ? (
         <div className="space-y-3">
@@ -58,14 +62,21 @@ function HospitalityOrders() {
                       <p className="text-xs text-muted-foreground">{order.createdAt}</p>
                     </div>
                   </div>
-                  <StatusPill tone={STATUS_TONE[order.status]}>{ORDER_LABEL[order.status]}</StatusPill>
+                  <StatusPill tone={STATUS_TONE[order.status]}>
+                    {ORDER_LABEL[order.status]}
+                  </StatusPill>
                 </div>
 
-                {order.note ? <p className="mt-2 text-xs text-muted-foreground">{order.note}</p> : null}
+                {order.note ? (
+                  <p className="mt-2 text-xs text-muted-foreground">{order.note}</p>
+                ) : null}
 
                 <ul className="mt-3 divide-y divide-border rounded-xl border border-border">
                   {order.items.map((item) => (
-                    <li key={item.produceId} className="flex items-center justify-between gap-3 px-3 py-2 text-sm">
+                    <li
+                      key={item.produceId}
+                      className="flex items-center justify-between gap-3 px-3 py-2 text-sm"
+                    >
                       <span>{item.name}</span>
                       <span className="text-muted-foreground">
                         {item.quantity} {item.unit}

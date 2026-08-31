@@ -14,9 +14,15 @@ export const Route = createFileRoute("/hospitality/menu")({
   head: () => ({
     meta: [
       { title: "AI Seasonal Menu — Hospitality — The Zimbabwean Table" },
-      { name: "description", content: "Generate a Zimbabwean seasonal menu from live farmer produce." },
+      {
+        name: "description",
+        content: "Generate a Zimbabwean seasonal menu from live farmer produce.",
+      },
       { property: "og:title", content: "AI Seasonal Menu — Hospitality — The Zimbabwean Table" },
-      { property: "og:description", content: "Turn available produce into a culturally rooted tasting menu." },
+      {
+        property: "og:description",
+        content: "Turn available produce into a culturally rooted tasting menu.",
+      },
     ],
   }),
   component: AiMenu,
@@ -95,9 +101,21 @@ function AiMenu() {
       .map(([id, qty]) => {
         const p = state.produce.find((x) => x.id === id);
         if (!p) return null;
-        return { produceId: p.id, name: p.name, quantity: qty, unit: p.unit as string, price: p.price };
+        return {
+          produceId: p.id,
+          name: p.name,
+          quantity: qty,
+          unit: p.unit as string,
+          price: p.price,
+        };
       })
-      .filter(Boolean) as { produceId: string; name: string; quantity: number; unit: string; price: number }[];
+      .filter(Boolean) as {
+      produceId: string;
+      name: string;
+      quantity: number;
+      unit: string;
+      price: number;
+    }[];
     if (orderItems.length) dispatch({ type: "placeOrder", items: orderItems });
   };
 
@@ -228,7 +246,9 @@ function AiMenu() {
                 <article key={i} className="surface-card p-4">
                   <div className="flex items-start justify-between gap-3">
                     <div>
-                      <p className="text-[11px] font-semibold tracking-widest text-clay uppercase">{c.course}</p>
+                      <p className="text-[11px] font-semibold tracking-widest text-clay uppercase">
+                        {c.course}
+                      </p>
                       <h3 className="text-display text-base">{c.dish}</h3>
                     </div>
                     <span className="text-display text-sm text-clay">{money(c.price)}</span>
@@ -236,7 +256,10 @@ function AiMenu() {
                   <p className="mt-1 text-sm text-muted-foreground">{c.description}</p>
                   <div className="mt-3 flex flex-wrap gap-2">
                     {c.produceUsed.map((name) => (
-                      <span key={name} className="rounded-full bg-leaf/10 px-2.5 py-1 text-xs font-medium text-leaf">
+                      <span
+                        key={name}
+                        className="rounded-full bg-leaf/10 px-2.5 py-1 text-xs font-medium text-leaf"
+                      >
                         {name}
                       </span>
                     ))}
@@ -272,9 +295,13 @@ function AiMenu() {
           <div className="grid gap-3 sm:grid-cols-2">
             {state.menus.map((m) => (
               <article key={m.id} className="surface-card p-4">
-                <p className="text-[11px] font-semibold tracking-widest text-clay uppercase">{m.season}</p>
+                <p className="text-[11px] font-semibold tracking-widest text-clay uppercase">
+                  {m.season}
+                </p>
                 <h3 className="text-display text-base">{m.title}</h3>
-                <p className="text-xs text-muted-foreground">{m.courses.length} courses · {m.createdAt}</p>
+                <p className="text-xs text-muted-foreground">
+                  {m.courses.length} courses · {m.createdAt}
+                </p>
               </article>
             ))}
           </div>
@@ -290,7 +317,9 @@ function AiMenu() {
         </span>
         <span className="min-w-0">
           <span className="text-display block text-base">View orders</span>
-          <span className="block text-sm text-muted-foreground">Track status from accepted to delivered.</span>
+          <span className="block text-sm text-muted-foreground">
+            Track status from accepted to delivered.
+          </span>
         </span>
         <ArrowRight className="ml-auto size-4 shrink-0 text-clay" aria-hidden />
       </Link>

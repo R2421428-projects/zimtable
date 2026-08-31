@@ -14,7 +14,10 @@ export const Route = createFileRoute("/tourist/experience/$id")({
     return { exp };
   },
   head: ({ loaderData }) => {
-    if (!loaderData) return { meta: [{ title: "Experience unavailable" }, { name: "robots", content: "noindex" }] };
+    if (!loaderData)
+      return {
+        meta: [{ title: "Experience unavailable" }, { name: "robots", content: "noindex" }],
+      };
     const { exp } = loaderData;
     return {
       meta: [
@@ -50,14 +53,28 @@ function ExperienceDetail() {
   };
 
   const complete = () => {
-    dispatch({ type: "complete", id: exp.id, label: `${exp.name} completed`, points: exp.points, stamps: stampsFor() });
-    toast.success(`+${exp.points} culinary points earned`, { description: "Passport stamps updated." });
+    dispatch({
+      type: "complete",
+      id: exp.id,
+      label: `${exp.name} completed`,
+      points: exp.points,
+      stamps: stampsFor(),
+    });
+    toast.success(`+${exp.points} culinary points earned`, {
+      description: "Passport stamps updated.",
+    });
   };
 
   return (
     <div className="pb-4">
       <div className="relative -mx-4 -mt-4">
-        <img src={exp.image} alt={exp.name} className="h-64 w-full object-cover md:h-80" width={1024} height={768} />
+        <img
+          src={exp.image}
+          alt={exp.name}
+          className="h-64 w-full object-cover md:h-80"
+          width={1024}
+          height={768}
+        />
         <div className="absolute inset-x-0 top-0 flex items-center justify-between p-4">
           <Link
             to="/tourist/explore"
@@ -80,7 +97,9 @@ function ExperienceDetail() {
 
       <div className="animate-rise mt-5">
         <div className="flex items-center gap-2">
-          <StatusPill tone={exp.status === "Available today" ? "good" : "warn"}>{exp.status}</StatusPill>
+          <StatusPill tone={exp.status === "Available today" ? "good" : "warn"}>
+            {exp.status}
+          </StatusPill>
           <StatusPill>{exp.authenticity}</StatusPill>
         </div>
         <h1 className="text-display mt-3 text-2xl leading-tight">{exp.name}</h1>
@@ -91,7 +110,8 @@ function ExperienceDetail() {
             <MapPin className="size-4" aria-hidden /> {exp.location}
           </span>
           <span className="inline-flex items-center gap-1">
-            <Star className="size-4 fill-gold text-gold" aria-hidden /> {exp.rating} ({exp.reviews} reviews)
+            <Star className="size-4 fill-gold text-gold" aria-hidden /> {exp.rating} ({exp.reviews}{" "}
+            reviews)
           </span>
           <span className="inline-flex items-center gap-1">
             <Clock className="size-4" aria-hidden /> {duration(exp.durationMins)}
@@ -126,7 +146,10 @@ function ExperienceDetail() {
                 <p className="mt-1 text-sm text-muted-foreground">{d.description}</p>
                 <div className="mt-2 flex flex-wrap gap-1.5">
                   {d.ingredients.map((ing) => (
-                    <span key={ing} className="rounded-full bg-secondary px-2.5 py-1 text-xs text-secondary-foreground">
+                    <span
+                      key={ing}
+                      className="rounded-full bg-secondary px-2.5 py-1 text-xs text-secondary-foreground"
+                    >
                       {ing}
                     </span>
                   ))}
@@ -138,22 +161,33 @@ function ExperienceDetail() {
 
         {exp.heritage ? (
           <section className="mt-6">
-            <SectionTitle title={`Heritage: ${exp.heritage.title}`} subtitle="Cultural context behind the dish" />
+            <SectionTitle
+              title={`Heritage: ${exp.heritage.title}`}
+              subtitle="Cultural context behind the dish"
+            />
             <div className="surface-card space-y-3 p-4 text-sm">
               <p>
-                <span className="text-display block text-xs tracking-wide uppercase">Cultural significance</span>
+                <span className="text-display block text-xs tracking-wide uppercase">
+                  Cultural significance
+                </span>
                 {exp.heritage.significance}
               </p>
               <p>
-                <span className="text-display block text-xs tracking-wide uppercase">Preparation</span>
+                <span className="text-display block text-xs tracking-wide uppercase">
+                  Preparation
+                </span>
                 {exp.heritage.preparation}
               </p>
               <p>
-                <span className="text-display block text-xs tracking-wide uppercase">Regional variations</span>
+                <span className="text-display block text-xs tracking-wide uppercase">
+                  Regional variations
+                </span>
                 {exp.heritage.regional}
               </p>
               <p>
-                <span className="text-display block text-xs tracking-wide uppercase">How it's served</span>
+                <span className="text-display block text-xs tracking-wide uppercase">
+                  How it's served
+                </span>
                 {exp.heritage.serving}
               </p>
             </div>
@@ -164,7 +198,10 @@ function ExperienceDetail() {
           <section className="mt-6">
             <SectionTitle title="Where the food comes from" subtitle="Ecosystem provenance" />
             <div className="surface-card flex items-center gap-3 p-4">
-              <span className="grid size-10 place-items-center rounded-full bg-leaf/15 text-lg" aria-hidden>
+              <span
+                className="grid size-10 place-items-center rounded-full bg-leaf/15 text-lg"
+                aria-hidden
+              >
                 🌾
               </span>
               <div className="min-w-0">

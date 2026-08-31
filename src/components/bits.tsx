@@ -65,7 +65,9 @@ export function StatCard({
   return (
     <div className="surface-card p-4">
       <div className="flex items-center justify-between gap-2">
-        <span className="text-xs font-medium tracking-wide text-muted-foreground uppercase">{label}</span>
+        <span className="text-xs font-medium tracking-wide text-muted-foreground uppercase">
+          {label}
+        </span>
         {icon ? (
           <span
             className={cn(

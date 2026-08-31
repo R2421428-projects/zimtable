@@ -16,7 +16,8 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: "The Zimbabwean Table — Discover Zimbabwe Through Food" },
       {
         property: "og:description",
-        content: "Culinary tourism, hospitality sourcing and farmer supply — one Zimbabwean food ecosystem.",
+        content:
+          "Culinary tourism, hospitality sourcing and farmer supply — one Zimbabwean food ecosystem.",
       },
     ],
   }),
@@ -57,14 +58,18 @@ function Landing() {
         />
         <div className="absolute inset-0 bg-gradient-to-b from-foreground/80 via-foreground/70 to-foreground/90" />
         <div className="relative mx-auto max-w-5xl px-4 py-20 text-center md:py-28">
-          <p className="text-[11px] font-semibold tracking-[0.35em] text-gold uppercase">Zimbabwe · Culinary Tourism</p>
+          <p className="text-[11px] font-semibold tracking-[0.35em] text-gold uppercase">
+            Zimbabwe · Culinary Tourism
+          </p>
           <h1 className="text-display mt-4 text-4xl leading-tight text-background md:text-6xl">
             The Zimbabwean Table
           </h1>
-          <p className="mt-3 text-lg text-background/85 md:text-xl">Discover Zimbabwe through food.</p>
+          <p className="mt-3 text-lg text-background/85 md:text-xl">
+            Discover Zimbabwe through food.
+          </p>
           <p className="mx-auto mt-4 max-w-xl text-sm text-background/75">
-            One ecosystem linking travellers, hospitality kitchens and the farmers who grow the ingredients — with AI
-            guiding discovery and seasonal menus.
+            One ecosystem linking travellers, hospitality kitchens and the farmers who grow the
+            ingredients — with AI guiding discovery and seasonal menus.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <Link
@@ -90,7 +95,11 @@ function Landing() {
         </p>
         <div className="mt-5 grid gap-4 md:grid-cols-3">
           {ROLES.map((role) => (
-            <Link key={role.to} to={role.to} className="surface-card animate-rise p-5 transition-shadow hover:shadow-lift">
+            <Link
+              key={role.to}
+              to={role.to}
+              className="surface-card animate-rise p-5 transition-shadow hover:shadow-lift"
+            >
               <span className="grid size-10 place-items-center rounded-full bg-secondary text-secondary-foreground">
                 <role.icon className="size-5" aria-hidden />
               </span>
@@ -108,7 +117,10 @@ function Landing() {
         <h2 className="text-display text-xl">Ten ways to taste Zimbabwe</h2>
         <div className="scroll-row no-bar mt-4">
           {CATEGORIES.map((c) => (
-            <span key={c.id} className="surface-card shrink-0 snap-start px-4 py-2.5 text-sm font-medium">
+            <span
+              key={c.id}
+              className="surface-card shrink-0 snap-start px-4 py-2.5 text-sm font-medium"
+            >
               <span aria-hidden>{c.emoji}</span> {c.label}
             </span>
           ))}
@@ -125,7 +137,8 @@ function Landing() {
       </section>
 
       <footer className="border-t border-border bg-secondary/40 py-8 text-center text-xs text-muted-foreground">
-        The Zimbabwean Table — demonstration build. Hosts, farms and businesses shown are illustrative demo data.
+        The Zimbabwean Table — demonstration build. Hosts, farms and businesses shown are
+        illustrative demo data.
       </footer>
     </div>
   );

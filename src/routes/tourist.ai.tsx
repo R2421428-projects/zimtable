@@ -15,10 +15,14 @@ export const Route = createFileRoute("/tourist/ai")({
       { title: "AI Culinary Concierge — The Zimbabwean Table" },
       {
         name: "description",
-        content: "Describe your taste and budget; AI matches you with authentic Zimbabwean food experiences.",
+        content:
+          "Describe your taste and budget; AI matches you with authentic Zimbabwean food experiences.",
       },
       { property: "og:title", content: "AI Culinary Concierge — The Zimbabwean Table" },
-      { property: "og:description", content: "AI-matched Zimbabwean food experiences, grounded in real partner tables." },
+      {
+        property: "og:description",
+        content: "AI-matched Zimbabwean food experiences, grounded in real partner tables.",
+      },
     ],
   }),
   component: AiDiscovery,
@@ -139,7 +143,10 @@ function AiDiscovery() {
                         </p>
                         <ul className="mt-2 space-y-1">
                           {m.reasons.slice(0, 4).map((r) => (
-                            <li key={r} className="flex items-center gap-1.5 text-xs text-foreground">
+                            <li
+                              key={r}
+                              className="flex items-center gap-1.5 text-xs text-foreground"
+                            >
                               <Sparkles className="size-3 text-clay" aria-hidden /> {r}
                             </li>
                           ))}

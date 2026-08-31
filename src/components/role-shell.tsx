@@ -46,7 +46,11 @@ const NAV: Record<Role, NavItem[]> = {
 
 const ROLE_META: Record<Role, { label: string; home: string; context: string }> = {
   tourist: { label: "Tourist", home: "/tourist", context: "Discover Zimbabwe through food" },
-  hospitality: { label: "Hospitality", home: "/hospitality", context: "Demo — Zambezi House Hotel" },
+  hospitality: {
+    label: "Hospitality",
+    home: "/hospitality",
+    context: "Demo — Zambezi House Hotel",
+  },
   farmer: { label: "Farmer", home: "/farmer", context: "Ruwa Green Beds" },
 };
 
@@ -64,7 +68,9 @@ export function DemoBar() {
   return (
     <div className="border-b border-border bg-night text-primary-foreground">
       <div className="mx-auto flex max-w-5xl items-center gap-2 px-4 py-2">
-        <span className="text-[11px] font-semibold tracking-widest uppercase opacity-70">Demo mode</span>
+        <span className="text-[11px] font-semibold tracking-widest uppercase opacity-70">
+          Demo mode
+        </span>
         <div className="ml-auto flex items-center gap-1 rounded-full bg-background/10 p-1">
           {(Object.keys(ROLE_META) as Role[]).map((role) => (
             <button
@@ -74,7 +80,9 @@ export function DemoBar() {
               aria-current={state.role === role}
               className={cn(
                 "rounded-full px-3 py-1 text-xs font-medium transition-colors",
-                state.role === role ? "bg-gold text-gold-foreground" : "opacity-80 hover:opacity-100",
+                state.role === role
+                  ? "bg-gold text-gold-foreground"
+                  : "opacity-80 hover:opacity-100",
               )}
             >
               {ROLE_META[role].label}
@@ -100,7 +108,8 @@ export function DemoBar() {
           <div className="surface-card w-full max-w-sm p-5 text-foreground">
             <h2 className="text-display text-lg">Reset the demo?</h2>
             <p className="mt-1 text-sm text-muted-foreground">
-              Points, orders, produce levels, saved experiences and menus return to the seeded state.
+              Points, orders, produce levels, saved experiences and menus return to the seeded
+              state.
             </p>
             <div className="mt-4 flex gap-2">
               <button
@@ -148,7 +157,9 @@ export function RoleShell({ role, children }: { role: Role; children: ReactNode 
                     to={item.to}
                     className={cn(
                       "flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
-                      active ? "bg-clay text-clay-foreground" : "text-muted-foreground hover:bg-secondary",
+                      active
+                        ? "bg-clay text-clay-foreground"
+                        : "text-muted-foreground hover:bg-secondary",
                     )}
                   >
                     <item.icon className="size-4" aria-hidden /> {item.label}
@@ -178,7 +189,10 @@ export function RoleShell({ role, children }: { role: Role; children: ReactNode 
                     active ? "text-clay" : "text-muted-foreground",
                   )}
                 >
-                  <item.icon className={cn("size-5 transition-transform", active && "scale-110")} aria-hidden />
+                  <item.icon
+                    className={cn("size-5 transition-transform", active && "scale-110")}
+                    aria-hidden
+                  />
                   {item.label}
                 </Link>
               </li>
@@ -190,7 +204,15 @@ export function RoleShell({ role, children }: { role: Role; children: ReactNode 
   );
 }
 
-export function PageHeader({ eyebrow, title, subtitle }: { eyebrow?: string; title: string; subtitle?: string }) {
+export function PageHeader({
+  eyebrow,
+  title,
+  subtitle,
+}: {
+  eyebrow?: string;
+  title: string;
+  subtitle?: string;
+}) {
   return (
     <header className="animate-rise mb-5">
       {eyebrow ? (

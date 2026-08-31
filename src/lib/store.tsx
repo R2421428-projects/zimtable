@@ -36,7 +36,14 @@ export type SavedMenu = {
   title: string;
   season: string;
   createdAt: string;
-  courses: { course: string; dish: string; description: string; produceUsed: string[]; price: number; culture: string }[];
+  courses: {
+    course: string;
+    dish: string;
+    description: string;
+    produceUsed: string[];
+    price: number;
+    culture: string;
+  }[];
 };
 
 export type AppState = {
@@ -66,7 +73,12 @@ const initialState: AppState = {
     { id: "tx-seed-2", label: "Mbare Market Tasting Walk completed", points: 90, at: "Yesterday" },
     { id: "tx-seed-3", label: "Reviewed Pamuzinda Eatery", points: 60, at: "Yesterday" },
     { id: "tx-seed-4", label: "#TasteOfZimbabwe photo shared", points: 100, at: "2 days ago" },
-    { id: "tx-seed-5", label: "Heritage dish discovered: Muriwo une dovi", points: 500, at: "3 days ago" },
+    {
+      id: "tx-seed-5",
+      label: "Heritage dish discovered: Muriwo une dovi",
+      points: 500,
+      at: "3 days ago",
+    },
   ],
   saved: [],
   completed: ["mbare-market"],
@@ -117,7 +129,13 @@ function reducer(state: AppState, action: Action): AppState {
           : [action.id, ...state.saved],
       };
     case "view":
-      return { ...state, recentlyViewed: [action.id, ...state.recentlyViewed.filter((i) => i !== action.id)].slice(0, 6) };
+      return {
+        ...state,
+        recentlyViewed: [action.id, ...state.recentlyViewed.filter((i) => i !== action.id)].slice(
+          0,
+          6,
+        ),
+      };
     case "complete": {
       if (state.completed.includes(action.id)) return state;
       return {
@@ -148,7 +166,12 @@ function reducer(state: AppState, action: Action): AppState {
         points: state.points - action.cost,
         redeemed: [action.id, ...state.redeemed],
         transactions: [
-          { id: `tx-${Date.now()}`, label: `Redeemed: ${action.name}`, points: -action.cost, at: "Just now" },
+          {
+            id: `tx-${Date.now()}`,
+            label: `Redeemed: ${action.name}`,
+            points: -action.cost,
+            at: "Just now",
+          },
           ...state.transactions,
         ],
       };
@@ -165,7 +188,9 @@ function reducer(state: AppState, action: Action): AppState {
     }
     case "placeOrder": {
       const total = action.items.reduce((s, i) => s + i.price * i.quantity, 0);
-      const farmerId = state.produce.find((p) => p.id === action.items[0]?.produceId)?.farmerId ?? ACTIVE_FARMER_ID;
+      const farmerId =
+        state.produce.find((p) => p.id === action.items[0]?.produceId)?.farmerId ??
+        ACTIVE_FARMER_ID;
       const order: Order = {
         id: `ord-${Date.now().toString().slice(-4)}`,
         businessName: BUSINESS.name,
@@ -179,7 +204,9 @@ function reducer(state: AppState, action: Action): AppState {
       return { ...state, orders: [order, ...state.orders] };
     }
     case "orderStatus": {
-      const orders = state.orders.map((o) => (o.id === action.id ? { ...o, status: action.status } : o));
+      const orders = state.orders.map((o) =>
+        o.id === action.id ? { ...o, status: action.status } : o,
+      );
       let produce = state.produce;
       if (action.status === "delivered") {
         const order = state.orders.find((o) => o.id === action.id);
@@ -188,14 +215,21 @@ function reducer(state: AppState, action: Action): AppState {
             const item = order.items.find((i) => i.produceId === p.id);
             if (!item) return p;
             const quantity = Math.max(0, p.quantity - item.quantity);
-            return { ...p, quantity, status: quantity === 0 ? "out" : quantity < 10 ? "low" : p.status };
+            return {
+              ...p,
+              quantity,
+              status: quantity === 0 ? "out" : quantity < 10 ? "low" : p.status,
+            };
           });
         }
       }
       return { ...state, orders, produce };
     }
     case "declineOrder":
-      return { ...state, orders: state.orders.map((o) => (o.id === action.id ? { ...o, declined: true } : o)) };
+      return {
+        ...state,
+        orders: state.orders.map((o) => (o.id === action.id ? { ...o, declined: true } : o)),
+      };
     case "prompt":
       return { ...state, tastePrompts: [action.text, ...state.tastePrompts].slice(0, 8) };
     case "reset":
@@ -243,7 +277,8 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       const order = state.orders.find((o) => o.id === id);
       if (!order) return;
       const next: OrderStatus =
-        ORDER_FLOW[Math.min(ORDER_FLOW.indexOf(order.status) + 1, ORDER_FLOW.length - 1)] ?? "completed";
+        ORDER_FLOW[Math.min(ORDER_FLOW.indexOf(order.status) + 1, ORDER_FLOW.length - 1)] ??
+        "completed";
       dispatch({ type: "orderStatus", id, status: next });
     },
     [state.orders],

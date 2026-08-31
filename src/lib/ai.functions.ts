@@ -2,7 +2,12 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { discover, generateMenu } from "./ai.server";
 import { searchZimbabwePlaces, searchFoodExperiences } from "./foursquare.server";
-import { searchPlaces, getHeritageSites, getRestaurants, type SearchOptions } from "./places-engine.server";
+import {
+  searchPlaces,
+  getHeritageSites,
+  getRestaurants,
+  type SearchOptions,
+} from "./places-engine.server";
 
 const DiscoverInput = z.object({ query: z.string().min(3).max(400) });
 
@@ -42,12 +47,12 @@ const FoursquareSearchInput = z.object({
 
 export const foursquareSearch = createServerFn({ method: "POST" })
   .inputValidator((data: unknown) => FoursquareSearchInput.parse(data))
-  .handler(async ({ data }) => 
-    searchZimbabwePlaces({ 
+  .handler(async ({ data }) =>
+    searchZimbabwePlaces({
       near: data.city ? `${data.city}, Zimbabwe` : "Harare, Zimbabwe",
       query: data.query,
-      limit: data.limit ?? 20 
-    })
+      limit: data.limit ?? 20,
+    }),
   );
 
 const FoursquareCityInput = z.object({
@@ -60,8 +65,33 @@ export const foursquareFoodExperiences = createServerFn({ method: "POST" })
 
 const PlacesSearchInput = z.object({
   query: z.string().min(2).max(200).optional(),
-  category: z.enum(["restaurant", "cafe", "market", "heritage_site", "accommodation", "cultural_center", "farm", "attraction", "activity"]).optional(),
-  region: z.enum(["Harare", "Bulawayo", "Victoria Falls", "Mutare", "Gweru", "Masvingo", "Chinhoyi", "Kariba", "Hwange", "Nyanga"]).optional(),
+  category: z
+    .enum([
+      "restaurant",
+      "cafe",
+      "market",
+      "heritage_site",
+      "accommodation",
+      "cultural_center",
+      "farm",
+      "attraction",
+      "activity",
+    ])
+    .optional(),
+  region: z
+    .enum([
+      "Harare",
+      "Bulawayo",
+      "Victoria Falls",
+      "Mutare",
+      "Gweru",
+      "Masvingo",
+      "Chinhoyi",
+      "Kariba",
+      "Hwange",
+      "Nyanga",
+    ])
+    .optional(),
   heritage: z.boolean().optional(),
   verified: z.boolean().optional(),
   limit: z.number().int().min(1).max(50).optional(),
@@ -73,8 +103,8 @@ export const placesSearch = createServerFn({ method: "POST" })
 
 export const getHeritageFunction = createServerFn({ method: "POST" })
   .inputValidator((data: unknown) => FoursquareCityInput.optional().parse(data))
-  .handler(async ({ data }) => getHeritageSites(data?.city as any));
+  .handler(async ({ data }) => getHeritageSites(data?.city as ZimbabweRegion | undefined));
 
 export const getRestaurantsFunction = createServerFn({ method: "POST" })
   .inputValidator((data: unknown) => FoursquareCityInput.parse(data))
-  .handler(async ({ data }) => getRestaurants(data.city as any));
+  .handler(async ({ data }) => getRestaurants(data.city as ZimbabweRegion));

@@ -37,7 +37,9 @@ export function ExperienceCard({ exp, compact = false }: { exp: Experience; comp
           <Bookmark className={cn("size-4", saved && "fill-clay text-clay")} />
         </button>
         <div className="absolute bottom-2 left-2">
-          <StatusPill tone={exp.status === "Available today" ? "good" : "warn"}>{exp.status}</StatusPill>
+          <StatusPill tone={exp.status === "Available today" ? "good" : "warn"}>
+            {exp.status}
+          </StatusPill>
         </div>
       </div>
 
@@ -51,7 +53,8 @@ export function ExperienceCard({ exp, compact = false }: { exp: Experience; comp
             <MapPin className="size-3.5" aria-hidden /> {exp.city}
           </span>
           <span className="inline-flex items-center gap-1">
-            <Star className="size-3.5 fill-gold text-gold" aria-hidden /> {exp.rating} ({exp.reviews})
+            <Star className="size-3.5 fill-gold text-gold" aria-hidden /> {exp.rating} (
+            {exp.reviews})
           </span>
           <span className="inline-flex items-center gap-1">
             <Clock className="size-3.5" aria-hidden /> {duration(exp.durationMins)}

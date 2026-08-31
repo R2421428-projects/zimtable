@@ -84,7 +84,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:title", content: "The Zimbabwean Table — Discover Zimbabwe Through Food" },
       {
         property: "og:description",
-        content: "Culinary tourism, hospitality sourcing and farmer supply — one Zimbabwean food ecosystem.",
+        content:
+          "Culinary tourism, hospitality sourcing and farmer supply — one Zimbabwean food ecosystem.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

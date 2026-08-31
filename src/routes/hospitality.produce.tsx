@@ -11,9 +11,15 @@ export const Route = createFileRoute("/hospitality/produce")({
   head: () => ({
     meta: [
       { title: "Source Produce — Hospitality — The Zimbabwean Table" },
-      { name: "description", content: "Browse and order fresh produce directly from partner farmers." },
+      {
+        name: "description",
+        content: "Browse and order fresh produce directly from partner farmers.",
+      },
       { property: "og:title", content: "Source Produce — Hospitality — The Zimbabwean Table" },
-      { property: "og:description", content: "Local sourcing from Zimbabwean smallholder farmers." },
+      {
+        property: "og:description",
+        content: "Local sourcing from Zimbabwean smallholder farmers.",
+      },
     ],
   }),
   component: HospitalityProduce,
@@ -47,7 +53,13 @@ function HospitalityProduce() {
       .map(([id, qty]) => {
         const p = PRODUCE.find((x) => x.id === id);
         if (!p || qty <= 0) return null;
-        return { produceId: p.id, name: p.name, quantity: qty, unit: p.unit as string, price: p.price };
+        return {
+          produceId: p.id,
+          name: p.name,
+          quantity: qty,
+          unit: p.unit as string,
+          price: p.price,
+        };
       })
       .filter((i): i is OrderItem => Boolean(i));
     if (!items.length) return;
@@ -62,7 +74,11 @@ function HospitalityProduce() {
 
   return (
     <div>
-      <PageHeader eyebrow="Local sourcing" title="Source from farmers" subtitle="Fresh produce available this week" />
+      <PageHeader
+        eyebrow="Local sourcing"
+        title="Source from farmers"
+        subtitle="Fresh produce available this week"
+      />
 
       <div className="surface-card p-4">
         <div className="scroll-row no-bar">
@@ -93,7 +109,10 @@ function HospitalityProduce() {
       </div>
 
       <section className="mt-6">
-        <SectionTitle title="Available produce" subtitle={`${filtered.length} lines from partner farms`} />
+        <SectionTitle
+          title="Available produce"
+          subtitle={`${filtered.length} lines from partner farms`}
+        />
         {filtered.length ? (
           <div className="grid gap-3 sm:grid-cols-2">
             {filtered.map((p) => {
@@ -119,7 +138,9 @@ function HospitalityProduce() {
                   <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm">
                     <span className="text-clay font-semibold">{money(p.price)}</span>
                     <span className="text-muted-foreground">per {p.unit}</span>
-                    <span className="text-muted-foreground">· {p.quantity} {p.unit} available</span>
+                    <span className="text-muted-foreground">
+                      · {p.quantity} {p.unit} available
+                    </span>
                   </div>
                   <p className="mt-1 text-xs text-muted-foreground">{p.harvest}</p>
 
@@ -156,7 +177,11 @@ function HospitalityProduce() {
             })}
           </div>
         ) : (
-          <EmptyState emoji="🌾" title="No produce matches" body="Try a different category filter." />
+          <EmptyState
+            emoji="🌾"
+            title="No produce matches"
+            body="Try a different category filter."
+          />
         )}
       </section>
 
@@ -198,7 +223,9 @@ function HospitalityProduce() {
         </span>
         <span className="min-w-0">
           <span className="text-display block text-base">View orders</span>
-          <span className="block text-sm text-muted-foreground">Track status from accepted to delivered.</span>
+          <span className="block text-sm text-muted-foreground">
+            Track status from accepted to delivered.
+          </span>
         </span>
         <ArrowRight className="ml-auto size-4 shrink-0 text-clay" aria-hidden />
       </Link>

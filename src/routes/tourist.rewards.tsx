@@ -12,10 +12,14 @@ export const Route = createFileRoute("/tourist/rewards")({
       { title: "Culinary Passport & Rewards — The Zimbabwean Table" },
       {
         name: "description",
-        content: "Track culinary points, tier benefits and passport stamps as you eat your way across Zimbabwe.",
+        content:
+          "Track culinary points, tier benefits and passport stamps as you eat your way across Zimbabwe.",
       },
       { property: "og:title", content: "Culinary Passport & Rewards — The Zimbabwean Table" },
-      { property: "og:description", content: "Bronze to Platinum tiers, regional stamps and unlocked experiences." },
+      {
+        property: "og:description",
+        content: "Bronze to Platinum tiers, regional stamps and unlocked experiences.",
+      },
     ],
   }),
   component: Rewards,
@@ -29,7 +33,11 @@ function Rewards() {
 
   return (
     <div>
-      <PageHeader eyebrow="Culinary passport" title="Your journey rewards" subtitle="Points earned by eating locally" />
+      <PageHeader
+        eyebrow="Culinary passport"
+        title="Your journey rewards"
+        subtitle="Points earned by eating locally"
+      />
 
       <div className="bg-night animate-rise rounded-3xl p-5 text-primary-foreground shadow-lift">
         <p className="text-xs font-semibold tracking-widest uppercase opacity-70">Total points</p>
@@ -53,7 +61,10 @@ function Rewards() {
       </div>
 
       <section className="mt-8">
-        <SectionTitle title="Passport stamps" subtitle={`${earned} of ${state.passport.length} collected`} />
+        <SectionTitle
+          title="Passport stamps"
+          subtitle={`${earned} of ${state.passport.length} collected`}
+        />
         <div className="grid grid-cols-3 gap-3 sm:grid-cols-6">
           {state.passport.map((p) => (
             <div
@@ -104,12 +115,18 @@ function Rewards() {
       </section>
 
       <section className="mt-8">
-        <SectionTitle title="Experiences you can unlock" subtitle="Milestones on the way to Platinum" />
+        <SectionTitle
+          title="Experiences you can unlock"
+          subtitle="Milestones on the way to Platinum"
+        />
         <div className="grid gap-3 sm:grid-cols-2">
           {REWARDS.map((r) => {
             const unlocked = state.points >= r.cost;
             return (
-              <article key={r.id} className={cn("surface-card flex items-start gap-3 p-4", !unlocked && "opacity-70")}>
+              <article
+                key={r.id}
+                className={cn("surface-card flex items-start gap-3 p-4", !unlocked && "opacity-70")}
+              >
                 <span className="text-2xl" aria-hidden>
                   {r.emoji}
                 </span>
@@ -117,7 +134,9 @@ function Rewards() {
                   <h3 className="text-display text-base leading-snug">{r.name}</h3>
                   <p className="text-sm text-muted-foreground">{r.detail}</p>
                   <p className="mt-1 text-xs font-semibold text-clay">
-                    {unlocked ? "Unlocked at your level" : `${(r.cost - state.points).toLocaleString()} points to go`}
+                    {unlocked
+                      ? "Unlocked at your level"
+                      : `${(r.cost - state.points).toLocaleString()} points to go`}
                   </p>
                 </div>
               </article>
@@ -135,7 +154,12 @@ function Rewards() {
                 <p className="truncate text-sm font-medium">{tx.label}</p>
                 <p className="text-xs text-muted-foreground">{tx.at}</p>
               </div>
-              <span className={cn("text-display text-sm", tx.points >= 0 ? "text-leaf" : "text-destructive")}>
+              <span
+                className={cn(
+                  "text-display text-sm",
+                  tx.points >= 0 ? "text-leaf" : "text-destructive",
+                )}
+              >
                 {tx.points >= 0 ? `+${tx.points}` : tx.points}
               </span>
             </li>

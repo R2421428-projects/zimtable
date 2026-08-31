@@ -15,9 +15,15 @@ export const Route = createFileRoute("/tourist/explore")({
   head: () => ({
     meta: [
       { title: "Explore Experiences — The Zimbabwean Table" },
-      { name: "description", content: "Filter authentic Zimbabwean food experiences by category, city and price." },
+      {
+        name: "description",
+        content: "Filter authentic Zimbabwean food experiences by category, city and price.",
+      },
       { property: "og:title", content: "Explore Experiences — The Zimbabwean Table" },
-      { property: "og:description", content: "Traditional meals, farm-to-table lunches, market walks and chef's tables." },
+      {
+        property: "og:description",
+        content: "Traditional meals, farm-to-table lunches, market walks and chef's tables.",
+      },
     ],
   }),
   component: Explore,
@@ -53,12 +59,19 @@ function Explore() {
 
   return (
     <div>
-      <PageHeader eyebrow="Explore" title="Find your next table" subtitle={`${results.length} experiences match`} />
+      <PageHeader
+        eyebrow="Explore"
+        title="Find your next table"
+        subtitle={`${results.length} experiences match`}
+      />
 
       <div className="surface-card p-4">
         <label className="relative block">
           <span className="sr-only">Search experiences</span>
-          <Search className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" aria-hidden />
+          <Search
+            className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground"
+            aria-hidden
+          />
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}

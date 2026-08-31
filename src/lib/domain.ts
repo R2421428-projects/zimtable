@@ -67,7 +67,13 @@ export type Experience = {
   authenticity: "Community verified" | "Heritage listed" | "Chef curated";
   status: "Available today" | "2 slots left" | "Seasonal — Nov to Mar";
   points: number;
-  heritage?: { title: string; significance: string; preparation: string; regional: string; serving: string };
+  heritage?: {
+    title: string;
+    significance: string;
+    preparation: string;
+    regional: string;
+    serving: string;
+  };
 };
 
 export const EXPERIENCES: Experience[] = [
@@ -138,7 +144,12 @@ export const EXPERIENCES: Experience[] = [
     tagline: "Harvest in the morning, eat at a long table under the msasa trees.",
     story:
       "This working smallholding supplies butternut and leafy greens to Harare kitchens. Guests walk the beds, pick what is ready that week, then eat a menu built entirely from that harvest.",
-    includes: ["Guided harvest walk", "Four-course seasonal lunch", "Meet the growing team", "Seed and season talk"],
+    includes: [
+      "Guided harvest walk",
+      "Four-course seasonal lunch",
+      "Meet the growing team",
+      "Seed and season talk",
+    ],
     dishes: [
       {
         name: "Roasted butternut with local herbs",
@@ -173,7 +184,12 @@ export const EXPERIENCES: Experience[] = [
     tagline: "Meet growers and taste your way through Zimbabwe's busiest produce market.",
     story:
       "A guided walk through the stalls where much of Harare's produce arrives each morning. You meet traders, taste street favourites, and learn how seasons move prices.",
-    includes: ["Guided market walk", "Five street tastings", "Producer introductions", "Ingredient glossary"],
+    includes: [
+      "Guided market walk",
+      "Five street tastings",
+      "Producer introductions",
+      "Ingredient glossary",
+    ],
     dishes: [
       {
         name: "Maputi and roasted groundnuts",
@@ -203,11 +219,17 @@ export const EXPERIENCES: Experience[] = [
     tagline: "Learn to cook sadza, greens and relish over a wood fire.",
     story:
       "A hands-on class in a traditional kitchen. You grind, stir and taste, then sit down to eat what you cooked while your host shares proverbs tied to each ingredient.",
-    includes: ["Hands-on cooking", "Recipe cards to take home", "Shared meal", "Proverbs and food language"],
+    includes: [
+      "Hands-on cooking",
+      "Recipe cards to take home",
+      "Shared meal",
+      "Proverbs and food language",
+    ],
     dishes: [
       {
         name: "Sadza with mopane worm relish",
-        description: "A regional delicacy: dried mopane worms rehydrated and fried with onion and tomato.",
+        description:
+          "A regional delicacy: dried mopane worms rehydrated and fried with onion and tomato.",
         ingredients: ["Mopane worms", "Onion", "Tomatoes", "Maize meal"],
       },
     ],
@@ -233,7 +255,12 @@ export const EXPERIENCES: Experience[] = [
     tagline: "A modern tasting menu built from indigenous Zimbabwean ingredients.",
     story:
       "Seven courses that reinterpret familiar Zimbabwean flavours — baobab, finger millet, wild honey — using produce delivered by nearby growers that week.",
-    includes: ["Seven-course tasting menu", "Producer provenance card", "Baobab dessert", "Chef conversation"],
+    includes: [
+      "Seven-course tasting menu",
+      "Producer provenance card",
+      "Baobab dessert",
+      "Chef conversation",
+    ],
     dishes: [
       {
         name: "Baobab and wild honey cream",
@@ -258,10 +285,34 @@ export type FarmerProfile = {
 };
 
 export const FARMERS: FarmerProfile[] = [
-  { id: "farmer-ruwa", name: "Demo — Tendai M.", farm: "Ruwa Green Beds", location: "Ruwa, Mashonaland East", since: 2016 },
-  { id: "farmer-chikomba", name: "Demo — Rudo N.", farm: "Chikomba Family Farm", location: "Chikomba, Mashonaland East", since: 2011 },
-  { id: "farmer-matobo", name: "Demo — Sipho D.", farm: "Matobo Dryland Growers", location: "Matobo, Matabeleland South", since: 2019 },
-  { id: "farmer-hwange", name: "Demo — Farai K.", farm: "Zambezi Fresh Collective", location: "Hwange, Matabeleland North", since: 2020 },
+  {
+    id: "farmer-ruwa",
+    name: "Demo — Tendai M.",
+    farm: "Ruwa Green Beds",
+    location: "Ruwa, Mashonaland East",
+    since: 2016,
+  },
+  {
+    id: "farmer-chikomba",
+    name: "Demo — Rudo N.",
+    farm: "Chikomba Family Farm",
+    location: "Chikomba, Mashonaland East",
+    since: 2011,
+  },
+  {
+    id: "farmer-matobo",
+    name: "Demo — Sipho D.",
+    farm: "Matobo Dryland Growers",
+    location: "Matobo, Matabeleland South",
+    since: 2019,
+  },
+  {
+    id: "farmer-hwange",
+    name: "Demo — Farai K.",
+    farm: "Zambezi Fresh Collective",
+    location: "Hwange, Matabeleland North",
+    since: 2020,
+  },
 ];
 
 export const ACTIVE_FARMER_ID = "farmer-ruwa";
@@ -440,7 +491,13 @@ export const ORDER_LABEL: Record<OrderStatus, string> = {
   completed: "Completed",
 };
 
-export type OrderItem = { produceId: string; name: string; quantity: number; unit: string; price: number };
+export type OrderItem = {
+  produceId: string;
+  name: string;
+  quantity: number;
+  unit: string;
+  price: number;
+};
 
 export type Order = {
   id: string;
@@ -459,7 +516,15 @@ export const SEED_ORDERS: Order[] = [
     id: "ord-1001",
     businessName: "Demo — Meikles Garden Restaurant",
     farmerId: "farmer-ruwa",
-    items: [{ produceId: "p-greens", name: "Covo & Rape Greens", quantity: 25, unit: "bunch", price: 0.6 }],
+    items: [
+      {
+        produceId: "p-greens",
+        name: "Covo & Rape Greens",
+        quantity: 25,
+        unit: "bunch",
+        price: 0.6,
+      },
+    ],
     total: 15,
     status: "accepted",
     createdAt: "Yesterday, 08:10",
@@ -478,7 +543,9 @@ export const SEED_ORDERS: Order[] = [
     id: "ord-1003",
     businessName: "Demo — Table 263",
     farmerId: "farmer-ruwa",
-    items: [{ produceId: "p-mushrooms", name: "Fresh Mushrooms", quantity: 6, unit: "kg", price: 4.5 }],
+    items: [
+      { produceId: "p-mushrooms", name: "Fresh Mushrooms", quantity: 6, unit: "kg", price: 4.5 },
+    ],
     total: 27,
     status: "completed",
     createdAt: "Mon, 15:20",
@@ -488,7 +555,11 @@ export const SEED_ORDERS: Order[] = [
 export type Tier = "Bronze" | "Silver" | "Gold" | "Platinum";
 
 export const TIERS: { tier: Tier; min: number; benefits: string[] }[] = [
-  { tier: "Bronze", min: 0, benefits: ["Base earning on every experience", "Access to all partner tables"] },
+  {
+    tier: "Bronze",
+    min: 0,
+    benefits: ["Base earning on every experience", "Access to all partner tables"],
+  },
   {
     tier: "Silver",
     min: 1000,
@@ -497,12 +568,20 @@ export const TIERS: { tier: Tier; min: number; benefits: string[] }[] = [
   {
     tier: "Gold",
     min: 2500,
-    benefits: ["Complimentary beverage with meals", "10% off partner meals", "Priority seasonal experiences"],
+    benefits: [
+      "Complimentary beverage with meals",
+      "10% off partner meals",
+      "Priority seasonal experiences",
+    ],
   },
   {
     tier: "Platinum",
     min: 5000,
-    benefits: ["VIP chef's table experience", "Custom printed culinary cookbook", "Farm-to-table invitations"],
+    benefits: [
+      "VIP chef's table experience",
+      "Custom printed culinary cookbook",
+      "Farm-to-table invitations",
+    ],
   },
 ];
 
@@ -524,11 +603,46 @@ export type Reward = {
 };
 
 export const REWARDS: Reward[] = [
-  { id: "r-meal", name: "Traditional meal for two", cost: 800, detail: "Redeem at any partner table.", tier: "Bronze", emoji: "🍲" },
-  { id: "r-farm", name: "Farm-to-table experience", cost: 1500, detail: "Harvest lunch on a partner smallholding.", tier: "Silver", emoji: "🌾" },
-  { id: "r-class", name: "Cooking class with a host", cost: 2200, detail: "Hands-on heritage cooking session.", tier: "Silver", emoji: "🔥" },
-  { id: "r-chef", name: "Chef's table experience", cost: 3500, detail: "Tasting menu built from that week's harvest.", tier: "Gold", emoji: "👩🏾‍🍳" },
-  { id: "r-book", name: "Custom Zimbabwe cookbook", cost: 5000, detail: "Hardcover record of your culinary journey.", tier: "Platinum", emoji: "📕" },
+  {
+    id: "r-meal",
+    name: "Traditional meal for two",
+    cost: 800,
+    detail: "Redeem at any partner table.",
+    tier: "Bronze",
+    emoji: "🍲",
+  },
+  {
+    id: "r-farm",
+    name: "Farm-to-table experience",
+    cost: 1500,
+    detail: "Harvest lunch on a partner smallholding.",
+    tier: "Silver",
+    emoji: "🌾",
+  },
+  {
+    id: "r-class",
+    name: "Cooking class with a host",
+    cost: 2200,
+    detail: "Hands-on heritage cooking session.",
+    tier: "Silver",
+    emoji: "🔥",
+  },
+  {
+    id: "r-chef",
+    name: "Chef's table experience",
+    cost: 3500,
+    detail: "Tasting menu built from that week's harvest.",
+    tier: "Gold",
+    emoji: "👩🏾‍🍳",
+  },
+  {
+    id: "r-book",
+    name: "Custom Zimbabwe cookbook",
+    cost: 5000,
+    detail: "Hardcover record of your culinary journey.",
+    tier: "Platinum",
+    emoji: "📕",
+  },
 ];
 
 export type PassportStamp = { id: string; label: string; earned: boolean };
@@ -545,10 +659,26 @@ export const PASSPORT_SEED: PassportStamp[] = [
 export type DemandInsight = { label: string; change: number; detail: string };
 
 export const DEMAND_INSIGHTS: DemandInsight[] = [
-  { label: "Traditional cuisine interest", change: 24, detail: "Searches for sadza and heritage relishes rose this month." },
-  { label: "Farm-to-table experiences", change: 18, detail: "Tourists are booking harvest lunches ahead of city dining." },
-  { label: "Indigenous ingredients", change: 12, detail: "Baobab, millet and mopane appear more often in AI prompts." },
-  { label: "Under $30 experiences", change: -4, detail: "Budget-tier demand steady, premium tastings growing faster." },
+  {
+    label: "Traditional cuisine interest",
+    change: 24,
+    detail: "Searches for sadza and heritage relishes rose this month.",
+  },
+  {
+    label: "Farm-to-table experiences",
+    change: 18,
+    detail: "Tourists are booking harvest lunches ahead of city dining.",
+  },
+  {
+    label: "Indigenous ingredients",
+    change: 12,
+    detail: "Baobab, millet and mopane appear more often in AI prompts.",
+  },
+  {
+    label: "Under $30 experiences",
+    change: -4,
+    detail: "Budget-tier demand steady, premium tastings growing faster.",
+  },
 ];
 
 export const DEMAND_TREND = [

@@ -29,11 +29,16 @@ const STATUS_TONE: Record<ProduceStatus, "good" | "warn" | "bad" | "neutral"> = 
 function FarmerProduce() {
   const { state, dispatch } = useStore();
   const myProduce = state.produce.filter((p) => p.farmerId === ACTIVE_FARMER_ID);
-  const [edits, setEdits] = useState<Record<string, { quantity: number; status: ProduceStatus }>>({});
+  const [edits, setEdits] = useState<Record<string, { quantity: number; status: ProduceStatus }>>(
+    {},
+  );
 
   const update = (id: string, patch: Partial<{ quantity: number; status: ProduceStatus }>) => {
     setEdits((prev) => {
-      const current = prev[id] ?? { quantity: myProduce.find((p) => p.id === id)?.quantity ?? 0, status: myProduce.find((p) => p.id === id)?.status ?? "available" };
+      const current = prev[id] ?? {
+        quantity: myProduce.find((p) => p.id === id)?.quantity ?? 0,
+        status: myProduce.find((p) => p.id === id)?.status ?? "available",
+      };
       return { ...prev, [id]: { ...current, ...patch } };
     });
   };
@@ -52,7 +57,11 @@ function FarmerProduce() {
 
   return (
     <div>
-      <PageHeader eyebrow="Inventory" title="Your produce" subtitle="Update quantities and availability" />
+      <PageHeader
+        eyebrow="Inventory"
+        title="Your produce"
+        subtitle="Update quantities and availability"
+      />
 
       {myProduce.length ? (
         <div className="grid gap-3 sm:grid-cols-2">
@@ -65,7 +74,9 @@ function FarmerProduce() {
               <article key={p.id} className="surface-card p-4">
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex items-center gap-3">
-                    <span className="text-2xl" aria-hidden>{p.emoji}</span>
+                    <span className="text-2xl" aria-hidden>
+                      {p.emoji}
+                    </span>
                     <div>
                       <h3 className="text-display text-base">{p.name}</h3>
                       <p className="text-xs text-muted-foreground">{p.category}</p>
@@ -80,7 +91,9 @@ function FarmerProduce() {
                     type="number"
                     min={0}
                     value={quantity}
-                    onChange={(e) => update(p.id, { quantity: Math.max(0, Number(e.target.value)) })}
+                    onChange={(e) =>
+                      update(p.id, { quantity: Math.max(0, Number(e.target.value)) })
+                    }
                     className="mt-1 w-full rounded-xl border border-input bg-background p-2.5 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
                   />
                 </label>
@@ -115,7 +128,11 @@ function FarmerProduce() {
           })}
         </div>
       ) : (
-        <EmptyState emoji="🌾" title="No produce listed" body="Your farm inventory appears here once seeded." />
+        <EmptyState
+          emoji="🌾"
+          title="No produce listed"
+          body="Your farm inventory appears here once seeded."
+        />
       )}
 
       <div className="surface-card mt-6 flex items-center gap-3 p-4">

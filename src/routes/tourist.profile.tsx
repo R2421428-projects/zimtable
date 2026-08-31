@@ -10,9 +10,15 @@ export const Route = createFileRoute("/tourist/profile")({
   head: () => ({
     meta: [
       { title: "Your Profile — The Zimbabwean Table" },
-      { name: "description", content: "Saved tables, completed experiences and your Zimbabwean taste profile." },
+      {
+        name: "description",
+        content: "Saved tables, completed experiences and your Zimbabwean taste profile.",
+      },
       { property: "og:title", content: "Your Profile — The Zimbabwean Table" },
-      { property: "og:description", content: "Your saved experiences, tastes and culinary milestones." },
+      {
+        property: "og:description",
+        content: "Your saved experiences, tastes and culinary milestones.",
+      },
     ],
   }),
   component: Profile,
@@ -29,7 +35,10 @@ function Profile() {
       <PageHeader eyebrow="Profile" title="Your taste profile" subtitle="Demo traveller account" />
 
       <div className="surface-card flex items-center gap-4 p-4">
-        <span className="bg-ember grid size-14 place-items-center rounded-full text-xl text-clay-foreground" aria-hidden>
+        <span
+          className="bg-ember grid size-14 place-items-center rounded-full text-xl text-clay-foreground"
+          aria-hidden
+        >
           🇿🇼
         </span>
         <div>
@@ -41,9 +50,23 @@ function Profile() {
       </div>
 
       <div className="mt-4 grid grid-cols-3 gap-3">
-        <StatCard label="Saved" value={savedExperiences.length} icon={<Bookmark className="size-4" />} />
-        <StatCard label="Done" value={completed.length} icon={<Trophy className="size-4" />} tone="gold" />
-        <StatCard label="Stamps" value={state.passport.filter((p) => p.earned).length} icon={<MapPin className="size-4" />} tone="leaf" />
+        <StatCard
+          label="Saved"
+          value={savedExperiences.length}
+          icon={<Bookmark className="size-4" />}
+        />
+        <StatCard
+          label="Done"
+          value={completed.length}
+          icon={<Trophy className="size-4" />}
+          tone="gold"
+        />
+        <StatCard
+          label="Stamps"
+          value={state.passport.filter((p) => p.earned).length}
+          icon={<MapPin className="size-4" />}
+          tone="leaf"
+        />
       </div>
 
       <section className="mt-8">
@@ -83,13 +106,20 @@ function Profile() {
             ))}
           </ul>
         ) : (
-          <EmptyState emoji="🍽️" title="No experiences yet" body="Book your first table to start the passport." />
+          <EmptyState
+            emoji="🍽️"
+            title="No experiences yet"
+            body="Book your first table to start the passport."
+          />
         )}
       </section>
 
       {state.tastePrompts.length ? (
         <section className="mt-8">
-          <SectionTitle title="What you've asked the AI" subtitle="Signals shared with hospitality partners" />
+          <SectionTitle
+            title="What you've asked the AI"
+            subtitle="Signals shared with hospitality partners"
+          />
           <ul className="surface-card divide-y divide-border">
             {state.tastePrompts.map((p, i) => (
               <li key={`${p}-${i}`} className="flex items-start gap-2 px-4 py-3 text-sm">

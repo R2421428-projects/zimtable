@@ -20,7 +20,10 @@ export const Route = createFileRoute("/hospitality/")({
       { title: "Overview — Hospitality — The Zimbabwean Table" },
       { name: "description", content: "Demand AI dashboard for hospitality partners." },
       { property: "og:title", content: "Overview — Hospitality — The Zimbabwean Table" },
-      { property: "og:description", content: "See what travellers are searching for and plan your menu." },
+      {
+        property: "og:description",
+        content: "See what travellers are searching for and plan your menu.",
+      },
     ],
   }),
   component: HospitalityOverview,
@@ -67,7 +70,10 @@ function HospitalityOverview() {
       </div>
 
       <section className="mt-6 surface-card p-4">
-        <SectionTitle title="Demand trend" subtitle="Traditional cuisine vs farm-to-table searches" />
+        <SectionTitle
+          title="Demand trend"
+          subtitle="Traditional cuisine vs farm-to-table searches"
+        />
         <div className="h-64">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={DEMAND_TREND} margin={{ top: 8, right: 8, bottom: 0, left: -16 }}>
@@ -117,7 +123,10 @@ function HospitalityOverview() {
           <SectionTitle title="AI demand insights" />
           <ul className="space-y-3">
             {DEMAND_INSIGHTS.map((insight) => (
-              <li key={insight.label} className="flex items-start gap-3 rounded-xl border border-border p-3">
+              <li
+                key={insight.label}
+                className="flex items-start gap-3 rounded-xl border border-border p-3"
+              >
                 <StatusPill tone={insight.change >= 0 ? "good" : "warn"}>
                   {insight.change >= 0 ? "+" : ""}
                   {insight.change}%
@@ -135,10 +144,15 @@ function HospitalityOverview() {
           <SectionTitle title="Popular dishes this week" />
           <ul className="space-y-2">
             {POPULAR_DISHES.map((d, i) => (
-              <li key={d.dish} className="flex items-center gap-3 rounded-xl border border-border p-3">
+              <li
+                key={d.dish}
+                className="flex items-center gap-3 rounded-xl border border-border p-3"
+              >
                 <span className="text-display w-6 text-sm text-muted-foreground">#{i + 1}</span>
                 <span className="min-w-0 flex-1 text-sm font-medium">{d.dish}</span>
-                <span className="text-xs text-muted-foreground">{d.searches.toLocaleString()} searches</span>
+                <span className="text-xs text-muted-foreground">
+                  {d.searches.toLocaleString()} searches
+                </span>
               </li>
             ))}
           </ul>
@@ -154,7 +168,9 @@ function HospitalityOverview() {
         </span>
         <span className="min-w-0">
           <span className="text-display block text-base">Generate an AI seasonal menu</span>
-          <span className="block text-sm text-muted-foreground">Turn live produce into a Zimbabwean tasting menu.</span>
+          <span className="block text-sm text-muted-foreground">
+            Turn live produce into a Zimbabwean tasting menu.
+          </span>
         </span>
         <ArrowRight className="ml-auto size-4 shrink-0 text-clay" aria-hidden />
       </Link>
